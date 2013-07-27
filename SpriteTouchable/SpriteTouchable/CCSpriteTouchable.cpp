@@ -44,25 +44,47 @@ void CCSpriteTouchable::onExit()
     pDirector->getTouchDispatcher()->removeDelegate(this);
     CCSprite::onExit();
 }
- 
+
 //===============================================================
 bool CCSpriteTouchable::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
-    CCLog("Touch Began");
+    CCPoint location = pTouch->getLocation();
+    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
+    CCRect box=this->boundingBox();
+    if(box.containsPoint(locationInNode)){
+        CCLog("Touch Began");
+        
+    }
     return true;
 }
 //===============================================================
 void CCSpriteTouchable::ccTouchEnded(CCTouch* pTouch, CCEvent* pEvent)
 {
-    CCLog("Touch Ended");
+    CCPoint location = pTouch->getLocation();
+    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
+    CCRect box=this->boundingBox();
+    if(box.containsPoint(locationInNode)){
+        CCLog("Touch Ended");
+        
+    }
 }
 //===============================================================
 void CCSpriteTouchable::ccTouchMoved(CCTouch* pTouch, CCEvent* pEvent)
 {
-    CCLog("Touch Moved");
+    CCPoint location = pTouch->getLocation();
+    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
+    CCRect box=this->boundingBox();
+    if(box.containsPoint(locationInNode)){
+        CCLog("Touch Moved");        
+    }
 }
 //===============================================================
 void CCSpriteTouchable::ccTouchCancelled(CCTouch* pTouch, CCEvent* pEvent)
 {
-    CCLog("Touch Cancelled");
+    CCPoint location = pTouch->getLocation();
+    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
+    CCRect box=this->boundingBox();
+    if(box.containsPoint(locationInNode)){
+        CCLog("Touch Cancelled");
+    }
 }
 //===============================================================
