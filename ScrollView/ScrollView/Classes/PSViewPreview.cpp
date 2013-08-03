@@ -44,14 +44,7 @@ bool PSViewPreview::init()
     
     // initialize the download marks
     m_JSONDownloadFinished = false;
-    m_LoadListBufferFinished = false;
-    
-    // initialize time variabls
-    m_startTime = time(0);
-    m_startDate = *localtime(&m_startTime);
-    m_previousDate = m_startDate;
-    
-    CCLog("Starting at Year: %02d, month: %02d, day: %02d", m_startDate.tm_year+1900, m_startDate.tm_mon+1, m_startDate.tm_mday);
+    m_loadListBufferFinished = false;
     
     m_scrollExceedingTop=false, m_scrollExceedingBottom=false;
     m_scrollBouncingFromTop=false, m_scrollBouncingFromBottom=false;
@@ -76,9 +69,9 @@ bool PSViewPreview::init()
     
     m_pPreviewScroll->setContentOffset(m_pPreviewScroll->minContainerOffset());
     
+    m_topY = m_pPreviewScroll->minContainerOffset().y;
+    m_bottomY = m_pPreviewScroll->maxContainerOffset().y;
     
-    m_topY = -(m_sizeScrollCapacity.height-m_sizeScrollView.height); // maximum vertical offset of the center of scrollView window
-    m_bottomY = 0;
     m_previousOffsetY = m_topY;
     
     CCLog("Scroll Capacity is %.2f points height, Scroll View is %.2f points height.", m_sizeScrollCapacity.height, m_sizeScrollView.height);
@@ -93,7 +86,7 @@ bool PSViewPreview::init()
     m_imageLoadedToSprite.clear();
     m_imageStartedDownload.clear();
     schedule(schedule_selector(PSViewPreview::loadListBuffer), /*interval*/0.1, /*repeat*/kCCRepeatForever,/*delay*/0);
-    m_LoadListBufferFinished = false;
+    m_loadListBufferFinished = false;
     return true;
 }
 
@@ -146,13 +139,22 @@ inline void PSViewPreview::scrollViewDidScroll(cocos2d::extension::CCScrollView*
         }
         // normal
         else{
-            m_accOffsetY=m_accOffsetY+(offset.y-m_previousOffsetY); // Note the moving direction
-            m_previousOffsetY=offset.y;
-            time_t currentTime = m_startTime - secPerDay*(m_accOffsetY/m_sizeScrollPage.height);
-            struct tm currentDate = *localtime(&currentTime);
-            if(!equalOnDate(currentDate, m_previousDate)){
-                CCLog("Currently at Year: %d, month: %d, day: %d", currentDate.tm_year+1900, currentDate.tm_mon+1, currentDate.tm_mday);
-                m_previousDate = currentDate;
+            if(m_loadListBufferFinished){
+                // calculate the corresponnding date of scroll bar position only after list buffer loaded
+                m_accOffsetY=m_accOffsetY+(offset.y-m_previousOffsetY); // Note the moving direction
+                m_previousOffsetY=offset.y;
+                time_t currentTime = m_startTime - secPerDay*(m_accOffsetY/m_sizeScrollPage.height);
+                struct tm currentDate = *localtime(&currentTime);
+                if(!equalOnDate(currentDate, m_previousDate)){
+                    CCLog("Currently at Year: %04d, month: %02d, day: %02d", currentDate.tm_year+1900, currentDate.tm_mon+1, currentDate.tm_mday);
+                    m_previousDate = currentDate;
+                    
+                    // download image of the date
+                    char buf[256]; sprintf(buf, "%04d-%02d-%02d", currentDate.tm_year+1900, currentDate.tm_mon+1, currentDate.tm_mday);
+                    
+                    string targetDate(buf);
+                    loadSpritesOfDate(targetDate);
+                }
             }
         }
     }
@@ -259,6 +261,26 @@ void PSViewPreview::loadListBuffer(float dt)
             while( (fRet=fgets(buf,1024,fp)) && count>0 ){ // the first line is date
                 
                 std::string currentDate(buf); // groupId is date in %04d-%02d-%02d format
+                
+                if(posInQueue==0){
+                    
+                    // initialize time variabls
+                    
+                    m_startDate.tm_year = atoi(currentDate.substr(0,4).c_str())-1900;
+                    m_startDate.tm_mon = atoi(currentDate.substr(5,2).c_str())-1;
+                    m_startDate.tm_mday = atoi(currentDate.substr(8,2).c_str());
+                    
+                    // set m_startTime to 23:00:00 of the day
+                    m_startDate.tm_hour=23;
+                    m_startDate.tm_min=0;
+                    m_startDate.tm_sec=0;
+                    
+                    m_startTime = mktime(&m_startDate);
+                    m_previousDate = m_startDate;
+                    
+                    CCLog("Starting at Year: %02d, month: %02d, day: %02d", m_startDate.tm_year+1900, m_startDate.tm_mon+1, m_startDate.tm_mday);
+                }
+                
                 if(currentDate!=previousDate){
                     withinGroupIndex=0; // reset withGroupIndex to when it comes to a new date
                     if(posInQueue%m_cols!=0){
@@ -304,48 +326,15 @@ void PSViewPreview::loadListBuffer(float dt)
             CCLog("Read file %s error.", m_listFilePath.c_str());
         }
         fclose(fp);
-        m_LoadListBufferFinished = true;
+        m_loadListBufferFinished = true;
         unschedule(schedule_selector(PSViewPreview::loadListBuffer));
-        loadPhotoSprite(dt);
-    }
-}
-
-void PSViewPreview::loadPhotoSprite(float dt)
-{
-        string dir = CCFileUtils::sharedFileUtils()->getWritablePath();
-        m_previousWithinGroupIndex = "zzzz"; // infinite number
         
-        for(auto it=m_photos.begin(); it!=m_photos.end(); ++it){
-            
-            string imageId = it->first.imageId;
-            string fileName, suffix;
-            fileNameFromUrl(it->second.url, fileName, suffix);
-            string fullFilePath = dir+imageId+suffix; // the image is saved using its imageId and suffix as a name
-            
-            if(CCFileUtils::sharedFileUtils()->isFileExist(fullFilePath)){
-                if(m_imageLoadedToSprite.find(imageId)==m_imageLoadedToSprite.end()){
-                    CCSprite* spr = CCSprite::create(fullFilePath.c_str());
-                    if(spr){
-                        //CCLog("Successfully loaded sprite for %s, named %s.", imageId.c_str(), fileName.c_str());
-                        // display the image in the grid w.r.t posInQueue
-                        int posInQueue = it->second.posInQueue;
-                        
-                        addSpriteToScroll(spr, m_pPreviewScroll, posInQueue, CCSize(m_cols,m_rows), CCSize(0.05, 0.06), CCSize(0.05, 0.03));
-                        m_imageLoadedToSprite.insert(imageId);
-                    }
-                    else{
-                        //CCLog("Failed to load sprite for %s, named %s!", imageId.c_str(), fileName.c_str());
-                    }
-                }
-            }
-            else{
-                if(m_imageStartedDownload.find(imageId)==m_imageStartedDownload.end()){
-                    // initial download or re-download
-                    downloadImage(it->first, it->second); // the id part is used as request tag
-                    m_imageStartedDownload.insert(imageId);
-                }
-            }
-        }
+        // load photos of the first date
+        char buf[256]; sprintf(buf, "%04d-%02d-%02d", m_startDate.tm_year+1900, m_startDate.tm_mon+1, m_startDate.tm_mday);
+        
+        string targetDate(buf);
+        loadSpritesOfDate(targetDate);
+    }
 }
 
 void PSViewPreview::downloadImage(imageIndex indicator, imageAttr attributes)
@@ -397,9 +386,12 @@ void PSViewPreview::onImageDownloadFinished(CCNode *node, void* obj)
             
             // display the image in the grid w.r.t posInQueue
             CCSprite* spr = getSpriteFrom(image);
-            addSpriteToScroll(spr, m_pPreviewScroll, posInQueue, CCSize(m_cols,m_rows), CCSize(0.05, 0.06), CCSize(0.05, 0.03));
+            
+            // Note: I'm not sure if adding sprites to CCNode is a blocking thread/process.
             
             m_imageLoadedToSprite.insert(imageId);
+            
+            addSpriteToScroll(spr, m_pPreviewScroll, posInQueue, CCSize(m_cols,m_rows), CCSize(0.05, 0.06), CCSize(0.05, 0.03));
         }
         image->release();
 	}
@@ -500,12 +492,12 @@ CCSprite* PSViewPreview::getSpriteFrom(CCImage* pCCImage){
     return NULL;
 }
 
-map<imageIndex,imageAttr>::iterator PSViewPreview::firstPhotoOfDate(map<imageIndex, imageAttr>& photosUrls, string& date){
+map<imageIndex,imageAttr>::iterator PSViewPreview::firstPhotoOfDate(map<imageIndex, imageAttr>& photos, string& date){
     
     string indicatorString = date; indicatorString.append("-0000");
     imageIndex indicator(indicatorString);
     
-    auto it = photosUrls.find(indicator);
+    auto it = photos.find(indicator);
     return it;
 }
 
@@ -525,4 +517,47 @@ string PSViewPreview::imageIdFromTag(const char* tag){
 int PSViewPreview::posInQueueFromTag(const char* tag){
     string tmp(tag);
     return atoi(tmp.substr(16,4).c_str());
+}
+
+void PSViewPreview::loadSpritesOfDate(string date){
+    
+    string dir = CCFileUtils::sharedFileUtils()->getWritablePath();
+    for(auto it = firstPhotoOfDate(m_photos, date);
+        it!=m_photos.end();++it){
+        
+        if(it->first.date!= date){break;}
+        
+        string imageId = it->first.imageId;
+        string fileName, suffix;
+        fileNameFromUrl(it->second.url, fileName, suffix);
+        string fullFilePath = dir+imageId+suffix; // the image is saved using its imageId and suffix as a name
+        
+        if(m_imageLoadedToSprite.find(imageId)!=m_imageLoadedToSprite.end()) continue; // image loaded
+        
+        else if(CCFileUtils::sharedFileUtils()->isFileExist(fullFilePath)){
+                CCSprite* spr = CCSprite::create(fullFilePath.c_str());
+                if(spr){
+                    //CCLog("Successfully loaded sprite for %s, named %s.", imageId.c_str(), fileName.c_str());
+                    // display the image in the grid w.r.t posInQueue
+                    int posInQueue = it->second.posInQueue;
+                    
+                    // Note: I'm not sure if adding sprites to CCNode is a blocking thread/process.
+                    
+                    m_imageLoadedToSprite.insert(imageId);
+                    
+                    addSpriteToScroll(spr, m_pPreviewScroll, posInQueue, CCSize(m_cols,m_rows), CCSize(0.05, 0.06), CCSize(0.05, 0.03));
+                    
+                }
+                else{
+                    CCLog("Failed to load sprite for %s, named %s!", imageId.c_str(), fileName.c_str());
+                }
+        }
+        else{
+            if(m_imageStartedDownload.find(imageId)==m_imageStartedDownload.end()){
+                // initial download or re-download
+                downloadImage(it->first, it->second); // the id part is used as request tag
+                m_imageStartedDownload.insert(imageId);
+            }
+        }
+    }
 }

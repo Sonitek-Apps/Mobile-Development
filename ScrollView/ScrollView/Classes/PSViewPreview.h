@@ -24,6 +24,7 @@
 #include "imageIndex.h"
 #include "imageAttr.h"
 #include "cJSON.h"
+#include "time.h"
 
 using namespace cocos2d;
 using namespace extension;
@@ -64,7 +65,7 @@ private:
     
     // download marks
     bool m_JSONDownloadFinished;
-    bool m_LoadListBufferFinished;
+    bool m_loadListBufferFinished;
     set<string> m_imageStartedDownload;
     set<string> m_imageLoadedToSprite;
     
@@ -86,7 +87,6 @@ public:
     void downloadJSON(char* feed);
     void onJSONDownloadFinished(CCNode* node, void* obj );
     void loadListBuffer(float dt);
-    void loadPhotoSprite(float dt);
     void downloadImage(imageIndex indicator, imageAttr attributes);
     void onImageDownloadFinished(CCNode* node,void* obj );
     void addSpriteToScroll(CCSprite *pIcon, CCScrollView* pScroll, int posInQueue, CCSize dimensions, CCSize marginRatio, CCSize gapsRatio);
@@ -94,11 +94,13 @@ public:
     string getWithinGroupIndex(string imageId);
     
     CCSprite* getSpriteFrom(CCImage* pCCImage);
-    map<imageIndex,imageAttr>::iterator firstPhotoOfDate(map<imageIndex, imageAttr>& photosUrls, string& date);
+    map<imageIndex,imageAttr>::iterator firstPhotoOfDate(map<imageIndex, imageAttr>& photos, string& date);
     
     string integrateToTag(imageIndex indicator, imageAttr attributes);
     string imageIdFromTag(const char* tag);
     int posInQueueFromTag(const char* tag);
+    
+    void loadSpritesOfDate(string date);
 };
 
 #endif /* defined(__Puzzle__PSViewPreview__) */
