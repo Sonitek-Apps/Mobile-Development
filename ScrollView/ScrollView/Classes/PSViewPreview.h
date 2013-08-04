@@ -90,6 +90,7 @@ public:
     void onJSONDownloadFinished(CCNode* node, void* obj );
     void loadListBuffer(float dt);
     void downloadImage(imageIndex* pIndicator, imageAttr* pAttributes);
+    void downloadImage(imageIndex& indicator, imageAttr& attributes);
     void onImageDownloadFinished(CCNode* node,void* obj );
     void addSpriteToScroll(CCSprite *pIcon, CCScrollView* pScroll, int posInQueue, CCSize dimensions, CCSize marginRatio, CCSize gapsRatio);
     CCSprite* cropRegionOfSpriteBySizeRatio(CCSprite* src, CCSize targetSize);

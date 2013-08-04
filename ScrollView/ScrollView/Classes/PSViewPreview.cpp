@@ -372,6 +372,25 @@ void PSViewPreview::downloadImage(imageIndex* pIndicator, imageAttr* pAttributes
     client->send(request);
 }
 
+void PSViewPreview::downloadImage(imageIndex& indicator, imageAttr& attributes)
+{
+    extension::CCHttpRequest *request = new extension::CCHttpRequest();
+    request->setRequestType(extension::CCHttpRequest::kHttpGet);
+    request->setUrl(attributes.url.c_str());
+    request->setResponseCallback((CCObject*)this, callfuncND_selector(PSViewPreview::onImageDownloadFinished));
+    //request->setTag(integrateToTag(indicator, attributes).c_str());
+    request->setRequestData(integrateToString(indicator, attributes).c_str(), strlen(integrateToString(indicator, attributes).c_str()));
+    
+    request->setUserData(&indicator);
+    // get CCHttpClient instance and set timeouts
+    CCHttpClient* client = CCHttpClient::getInstance();
+    client->setTimeoutForConnect(5);
+    client->setTimeoutForRead(60);
+    
+    // send request
+    client->send(request);
+}
+
 void PSViewPreview::onImageDownloadFinished(CCNode *node, void* obj)
 {
     CCHttpResponse* response = (CCHttpResponse*)obj;
@@ -577,7 +596,8 @@ void PSViewPreview::loadSpritesOfDate(string date){
         else{
             if(m_imageStartedDownload.find(imageId)==m_imageStartedDownload.end()){
                 // initial download or re-download
-                downloadImage( (imageIndex*)&(it->first), (imageAttr*)&(it->second) ); // the id part is used as request tag
+                //downloadImage( (imageIndex*)&(it->first), (imageAttr*)&(it->second) ); // the id part is used as request tag
+                downloadImage((imageIndex&)it->first, (imageAttr&)it->second); // the id part is used as request tag
                 m_imageStartedDownload.insert(imageId);
             }
         }
