@@ -62,6 +62,7 @@ private:
     CCArray* m_pDigits;
     map<imageIndex,imageAttr> m_photos; // map<(groupId,withinGroupIndex),(posInQueue, url)>
     string m_previousWithinGroupIndex;
+    CCArray * m_pages;
     
     // download marks
     bool m_JSONDownloadFinished;
@@ -71,7 +72,8 @@ private:
     
 public:
     virtual bool init();
-
+    virtual void onEnter();
+    virtual void onExit();
     static cocos2d::CCScene* scene();
     CREATE_FUNC(PSViewPreview);
 
@@ -87,7 +89,7 @@ public:
     void downloadJSON(char* feed);
     void onJSONDownloadFinished(CCNode* node, void* obj );
     void loadListBuffer(float dt);
-    void downloadImage(imageIndex indicator, imageAttr attributes);
+    void downloadImage(imageIndex* pIndicator, imageAttr* pAttributes);
     void onImageDownloadFinished(CCNode* node,void* obj );
     void addSpriteToScroll(CCSprite *pIcon, CCScrollView* pScroll, int posInQueue, CCSize dimensions, CCSize marginRatio, CCSize gapsRatio);
     CCSprite* cropRegionOfSpriteBySizeRatio(CCSprite* src, CCSize targetSize);
@@ -96,11 +98,19 @@ public:
     CCSprite* getSpriteFrom(CCImage* pCCImage);
     map<imageIndex,imageAttr>::iterator firstPhotoOfDate(map<imageIndex, imageAttr>& photos, string& date);
     
-    string integrateToTag(imageIndex indicator, imageAttr attributes);
-    string imageIdFromTag(const char* tag);
-    int posInQueueFromTag(const char* tag);
+    string integrateToString(imageIndex indicator, imageAttr attributes);
+    string imageIdFromString(const char* str);
+    int posInQueueFromString(const char* str);
     
     void loadSpritesOfDate(string date);
+    void addSpriteToPage(CCSprite* spr, CCSprite* page, int pageRows, int pageCols, int withinGroupIndex);
+
+    void addPageToScroll(CCSprite* page, CCScrollView* pScroll, int numDaysToLoad, time_t startTime, time_t currentTime);
+
+    CCSprite* createPage(CCScrollView* pScroll, int numDaysToLoad);
+    void loadPageOfDate(CCSprite* page, string date);
+    int getDayDifference(time_t currentTime, time_t startTime);
+    int getDayDifference(string date, time_t startTime);
 };
 
 #endif /* defined(__Puzzle__PSViewPreview__) */

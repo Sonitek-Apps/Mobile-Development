@@ -34,7 +34,7 @@ bool PSViewPreview::init()
     
     // initialize number limits
     m_numPhotosPerDay = 25;
-    m_numDaysToLoad=3;
+    m_numDaysToLoad=10;
     m_cols=3;
     m_rows=(int)ceil((float)m_numPhotosPerDay/m_cols)*m_numDaysToLoad;
     m_numViewsPerPage=5;
@@ -88,6 +88,16 @@ bool PSViewPreview::init()
     schedule(schedule_selector(PSViewPreview::loadListBuffer), /*interval*/0.1, /*repeat*/kCCRepeatForever,/*delay*/0);
     m_loadListBufferFinished = false;
     return true;
+}
+
+void PSViewPreview::onEnter(){
+    CCLayer::onEnter();
+    m_pages = CCArray::create(); m_pages->retain();
+}
+
+void PSViewPreview::onExit(){
+    CCLayer::onExit();
+    m_pages->release();
 }
 
 inline void PSViewPreview::scrollViewDidScroll(cocos2d::extension::CCScrollView* view)
@@ -145,6 +155,9 @@ inline void PSViewPreview::scrollViewDidScroll(cocos2d::extension::CCScrollView*
                 m_previousOffsetY=offset.y;
                 time_t currentTime = m_startTime - secPerDay*(m_accOffsetY/m_sizeScrollPage.height);
                 struct tm currentDate = *localtime(&currentTime);
+                
+                //addPageToScroll(NULL, NULL, m_numDaysToLoad, m_startTime, currentTime);
+                
                 if(!equalOnDate(currentDate, m_previousDate)){
                     CCLog("Currently at Year: %04d, month: %02d, day: %02d", currentDate.tm_year+1900, currentDate.tm_mon+1, currentDate.tm_mday);
                     m_previousDate = currentDate;
@@ -154,6 +167,9 @@ inline void PSViewPreview::scrollViewDidScroll(cocos2d::extension::CCScrollView*
                     
                     string targetDate(buf);
                     loadSpritesOfDate(targetDate);
+                    
+                    CCSprite* page = createPage(m_pPreviewScroll, m_numDaysToLoad);
+                    m_pages->addObject(page);
                 }
             }
         }
@@ -337,13 +353,16 @@ void PSViewPreview::loadListBuffer(float dt)
     }
 }
 
-void PSViewPreview::downloadImage(imageIndex indicator, imageAttr attributes)
+void PSViewPreview::downloadImage(imageIndex* pIndicator, imageAttr* pAttributes)
 {
     extension::CCHttpRequest *request = new extension::CCHttpRequest();
     request->setRequestType(extension::CCHttpRequest::kHttpGet);
-    request->setUrl(attributes.url.c_str());
+    request->setUrl(pAttributes->url.c_str());
     request->setResponseCallback((CCObject*)this, callfuncND_selector(PSViewPreview::onImageDownloadFinished));
-    request->setTag(integrateToTag(indicator, attributes).c_str());
+    //request->setTag(integrateToTag(indicator, attributes).c_str());
+    request->setRequestData(integrateToString(*pIndicator, *pAttributes).c_str(), strlen(integrateToString(*pIndicator, *pAttributes).c_str()));
+    
+    request->setUserData(pIndicator);
     // get CCHttpClient instance and set timeouts
     CCHttpClient* client = CCHttpClient::getInstance();
     client->setTimeoutForConnect(5);
@@ -359,11 +378,14 @@ void PSViewPreview::onImageDownloadFinished(CCNode *node, void* obj)
     string requestUrl = response->getHttpRequest()->getUrl();
     string fileName, suffix;
     fileNameFromUrl(requestUrl, fileName, suffix);
+  
+    void* pUserData = response->getHttpRequest()->getUserData();
+    imageIndex* pIndicator = (imageIndex*)pUserData;
+    imageIndex indicator = (*pIndicator);
     
-    const char* tag = response->getHttpRequest()->getTag();
-    
-    string imageId = imageIdFromTag(tag);
-    int posInQueue = posInQueueFromTag(tag);
+    string imageId= indicator.imageId;
+    char* requestData = response->getHttpRequest()->getRequestData();
+    int posInQueue = posInQueueFromString(requestData);
     
 	if (!response->isSucceed())
 	{
@@ -501,7 +523,7 @@ map<imageIndex,imageAttr>::iterator PSViewPreview::firstPhotoOfDate(map<imageInd
     return it;
 }
 
-string PSViewPreview::integrateToTag(imageIndex indicator, imageAttr attributes){
+string PSViewPreview::integrateToString(imageIndex indicator, imageAttr attributes){
     string ret = indicator.imageId;
     ret.append("/");
     char buf[256]; sprintf(buf,"%04d",attributes.posInQueue);
@@ -509,13 +531,13 @@ string PSViewPreview::integrateToTag(imageIndex indicator, imageAttr attributes)
     return ret;
 }
 
-string PSViewPreview::imageIdFromTag(const char* tag){
-    string tmp(tag);
+string PSViewPreview::imageIdFromString(const char* str){
+    string tmp(str);
     return tmp.substr(0,15);
 }
 
-int PSViewPreview::posInQueueFromTag(const char* tag){
-    string tmp(tag);
+int PSViewPreview::posInQueueFromString(const char* str){
+    string tmp(str);
     return atoi(tmp.substr(16,4).c_str());
 }
 
@@ -555,9 +577,78 @@ void PSViewPreview::loadSpritesOfDate(string date){
         else{
             if(m_imageStartedDownload.find(imageId)==m_imageStartedDownload.end()){
                 // initial download or re-download
-                downloadImage(it->first, it->second); // the id part is used as request tag
+                downloadImage( (imageIndex*)&(it->first), (imageAttr*)&(it->second) ); // the id part is used as request tag
                 m_imageStartedDownload.insert(imageId);
             }
         }
     }
+}
+
+void PSViewPreview::addSpriteToPage(CCSprite* spr, CCSprite* page, int pageRows, int pageCols, int withinGroupIndex){
+    
+    float iconWidth = page->getContentSize().width/pageCols;
+    float iconHeight = page->getContentSize().height/pageRows;
+    
+    int r = withinGroupIndex/pageCols, c = withinGroupIndex%pageCols;
+    
+    CCSprite* croppedSpr = cropRegionOfSpriteBySizeRatio(spr, CCSize(iconWidth, iconHeight));
+    
+    croppedSpr->setScale(iconWidth/croppedSpr->getContentSize().width);
+    croppedSpr->setPosition(ccp(iconWidth/2+c*iconWidth,page->getContentSize().height-iconHeight/2-r*iconHeight));
+    
+    page->addChild(croppedSpr,1);
+}
+
+void PSViewPreview::addPageToScroll(CCSprite* page, CCScrollView* pScroll, int numDaysToLoad, time_t startTime, time_t currentTime){
+    
+    time_t timeDifference = startTime-currentTime;
+    struct tm dateDifference = *localtime(&timeDifference);
+    int daysDifference = dateDifference.tm_mday;
+    
+    CCLog("Day difference is %d.", daysDifference);
+    
+    page->setPosition(ccp(
+                          pScroll->getContentSize().width/2,
+                          pScroll->getContentSize().height-page->getContentSize().height/2-daysDifference*page->getContentSize().height
+                          )
+                      );
+    
+    pScroll->addChild(page, 1);
+}
+
+CCSprite* PSViewPreview::createPage(CCScrollView* pScroll, int numDaysToLoad){
+    CCSprite* page = CCSprite::create();
+    page->autorelease();
+    
+    page->setContentSize(CCSize(pScroll->getContentSize().width, pScroll->getContentSize().height/numDaysToLoad));
+    
+    return page;
+}
+
+void PSViewPreview::loadPageOfDate(CCSprite* page, string date){
+    
+}
+
+int PSViewPreview::getDayDifference(time_t currentTime, time_t startTime){
+    time_t timeDifference = startTime-currentTime;
+    struct tm dateDifference = *localtime(&timeDifference);
+    int daysDifference = dateDifference.tm_mday;
+    return daysDifference;
+}
+
+int PSViewPreview::getDayDifference(string date, time_t startTime){
+    // date is in format %04d-%02d-%02d
+    int year = atoi(date.substr(0,4).c_str());
+    int month = atoi(date.substr(5,2).c_str());
+    int day = atoi(date.substr(8,2).c_str());
+    
+    struct tm currentDate;
+    
+    currentDate.tm_year = year-1900;
+    currentDate.tm_mon = month-1;
+    currentDate.tm_mday = day;
+    
+    time_t currentTime = mktime(&currentDate);
+    
+    return getDayDifference(currentTime, startTime);
 }
