@@ -270,6 +270,7 @@
 		CE2ABE5B17AC0D9B00D9AA09 /* cJSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE2ABE5A17AC0D9B00D9AA09 /* cJSON.cpp */; };
 		CE2ABE5D17AC117B00D9AA09 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2ABE5C17AC117A00D9AA09 /* Default-568h@2x.png */; };
 		CE2ABE7E17AC141800D9AA09 /* box.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE2ABE7D17AC141800D9AA09 /* box.jpg */; };
+		CE899ADD17B53B4F005D607D /* JSONReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE899ADB17B53B4F005D607D /* JSONReader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -844,6 +845,8 @@
 		CE2ABE5A17AC0D9B00D9AA09 /* cJSON.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cJSON.cpp; path = Classes/cJSON.cpp; sourceTree = "<group>"; };
 		CE2ABE5C17AC117A00D9AA09 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CE2ABE7D17AC141800D9AA09 /* box.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = box.jpg; path = Resources/box.jpg; sourceTree = "<group>"; };
+		CE899ADB17B53B4F005D607D /* JSONReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSONReader.cpp; sourceTree = "<group>"; };
+		CE899ADC17B53B4F005D607D /* JSONReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONReader.h; sourceTree = "<group>"; };
 		CEB444C917ACC7280074F7C3 /* imageAttr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imageAttr.h; path = Classes/imageAttr.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2002,6 +2005,8 @@
 				CE2ABE5817AC0CE700D9AA09 /* Constants.h */,
 				CE2ABE5917AC0D5F00D9AA09 /* cJSON.h */,
 				CE2ABE5A17AC0D9B00D9AA09 /* cJSON.cpp */,
+				CE899ADB17B53B4F005D607D /* JSONReader.cpp */,
+				CE899ADC17B53B4F005D607D /* JSONReader.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2319,6 +2324,7 @@
 				CE2ABE4E17AC077700D9AA09 /* HelloWorldScene.cpp in Sources */,
 				CE2ABE5617AC07C900D9AA09 /* PSViewPreview.cpp in Sources */,
 				CE2ABE5B17AC0D9B00D9AA09 /* cJSON.cpp in Sources */,
+				CE899ADD17B53B4F005D607D /* JSONReader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
