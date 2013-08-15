@@ -65,12 +65,12 @@ bool JSONReader::init(CCObject* pTarget, SEL_CallFuncO pSelector){
 }
 
 void JSONReader::downloadJSON(){
-    cocos2d::extension::CCHttpRequest *request = new extension::CCHttpRequest();
+    CCHttpRequest *request = new CCHttpRequest();
     request->setUrl(m_feed.c_str());
-    request->setRequestType(extension::CCHttpRequest::kHttpGet);
+    request->setRequestType(CCHttpRequest::kHttpGet);
     request->setResponseCallback(this, callfuncND_selector(JSONReader::onJSONDownloadFinished));
     request->setTag("tactskySlidePuzzle");
-    cocos2d::extension::CCHttpClient::getInstance()->send(request);
+    CCHttpClient::getInstance()->send(request);
     request->release();
 }
 

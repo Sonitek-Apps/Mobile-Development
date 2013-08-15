@@ -9,8 +9,8 @@
 #ifndef ScrollView_Constants_h
 #define ScrollView_Constants_h
 
-const int nImageTypes=6;
-const char* imageSuffix[] = {".jpg",".png",".jpeg",".JPG",".PNG",".JPEG"};
+const static int nImageTypes=6;
+const static char* imageSuffix[] = {".jpg",".png",".jpeg",".JPG",".PNG",".JPEG"};
 
-const int secPerDay = 86400;
+const static int secPerDay = 86400;
 #endif
