@@ -266,7 +266,7 @@
 		CE007AAE17A2BDE700FBEA03 /* cpVect.c in Sources */ = {isa = PBXBuildFile; fileRef = CE007AAD17A2BDE700FBEA03 /* cpVect.c */; };
 		CE007AB517A2BDE700FBEA03 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE007AB417A2BDE700FBEA03 /* AppDelegate.cpp */; };
 		CE007AB817A2BDE700FBEA03 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */; };
-		CE007AC017A2BE1F00FBEA03 /* CCSpriteTouchable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE007ABE17A2BE1F00FBEA03 /* CCSpriteTouchable.cpp */; };
+		CE353A7217C3C79E00901014 /* CCSpriteTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -833,8 +833,8 @@
 		CE007AB417A2BDE700FBEA03 /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		CE007AB617A2BDE700FBEA03 /* HelloWorldScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Classes/HelloWorldScene.h; sourceTree = "<group>"; };
 		CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
-		CE007ABE17A2BE1F00FBEA03 /* CCSpriteTouchable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpriteTouchable.cpp; sourceTree = "<group>"; };
-		CE007ABF17A2BE1F00FBEA03 /* CCSpriteTouchable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSpriteTouchable.h; sourceTree = "<group>"; };
+		CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCSpriteTouch.cpp; path = Classes/CCSpriteTouch.cpp; sourceTree = "<group>"; };
+		CE353A7117C3C79E00901014 /* CCSpriteTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSpriteTouch.h; path = Classes/CCSpriteTouch.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1979,12 +1979,12 @@
 		CE007AB217A2BDE700FBEA03 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */,
+				CE353A7117C3C79E00901014 /* CCSpriteTouch.h */,
 				CE007AB317A2BDE700FBEA03 /* AppDelegate.h */,
 				CE007AB417A2BDE700FBEA03 /* AppDelegate.cpp */,
 				CE007AB617A2BDE700FBEA03 /* HelloWorldScene.h */,
 				CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */,
-				CE007ABE17A2BE1F00FBEA03 /* CCSpriteTouchable.cpp */,
-				CE007ABF17A2BE1F00FBEA03 /* CCSpriteTouchable.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2298,7 +2298,7 @@
 				CE007AAE17A2BDE700FBEA03 /* cpVect.c in Sources */,
 				CE007AB517A2BDE700FBEA03 /* AppDelegate.cpp in Sources */,
 				CE007AB817A2BDE700FBEA03 /* HelloWorldScene.cpp in Sources */,
-				CE007AC017A2BE1F00FBEA03 /* CCSpriteTouchable.cpp in Sources */,
+				CE353A7217C3C79E00901014 /* CCSpriteTouch.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2440,6 +2440,7 @@
 				CE007ABD17A2BDE700FBEA03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -71,7 +71,7 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     this->addChild(pSprite, 0);
     
-    CCSpriteTouchable* pTouchTest = CCSpriteTouchable::create("Icon.png");
+    CCSpriteTouch* pTouchTest = CCSpriteTouch::create("Icon.png");
     pTouchTest->setPosition(ccp(size.width/7,size.height-size.height/8));
     this->addChild(pTouchTest,1);
     return true;
