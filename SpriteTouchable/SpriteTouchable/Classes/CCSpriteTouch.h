@@ -20,7 +20,6 @@ class CCSpriteTouch: public CCSprite, public CCTargetedTouchDelegate
 public:
     CCSpriteTouch();
     virtual ~CCSpriteTouch();
-public:
     static CCSpriteTouch* create();
     static CCSpriteTouch* create(const char* filename);
     virtual void onEnter();
@@ -29,4 +28,16 @@ public:
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
+public:
+    CCAction* buildLoadingAction();
+    void startLoading();
+    void stopLoading();
+private:
+    // callback functions
+private:
+    CCSprite* _loadingIcon;
+    CCAction* _loadingAction;
+    bool _bLoading;
+    float _nLoadingActionFrames;
+    float _loadingActionCycle;
 };

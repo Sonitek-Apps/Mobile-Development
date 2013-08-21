@@ -267,6 +267,7 @@
 		CE007AB517A2BDE700FBEA03 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE007AB417A2BDE700FBEA03 /* AppDelegate.cpp */; };
 		CE007AB817A2BDE700FBEA03 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */; };
 		CE353A7217C3C79E00901014 /* CCSpriteTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */; };
+		CEB35D4517C517EB0038F49C /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB35D4417C517EB0038F49C /* loading.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -835,6 +836,8 @@
 		CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
 		CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCSpriteTouch.cpp; path = Classes/CCSpriteTouch.cpp; sourceTree = "<group>"; };
 		CE353A7117C3C79E00901014 /* CCSpriteTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSpriteTouch.h; path = Classes/CCSpriteTouch.h; sourceTree = "<group>"; };
+		CEB35D4417C517EB0038F49C /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading.png; path = Resources/loading.png; sourceTree = "<group>"; };
+		CEB35D4617C518E50038F49C /* Macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -905,6 +908,7 @@
 		CE00775117A2BDE200FBEA03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CEB35D4417C517EB0038F49C /* loading.png */,
 				CE00775217A2BDE200FBEA03 /* CloseNormal.png */,
 				CE00775417A2BDE300FBEA03 /* CloseSelected.png */,
 				CE00775617A2BDE300FBEA03 /* Default.png */,
@@ -1985,6 +1989,7 @@
 				CE007AB417A2BDE700FBEA03 /* AppDelegate.cpp */,
 				CE007AB617A2BDE700FBEA03 /* HelloWorldScene.h */,
 				CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */,
+				CEB35D4617C518E50038F49C /* Macros.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2052,6 +2057,7 @@
 				CE00776717A2BDE300FBEA03 /* iTunesArtwork in Resources */,
 				CE00780317A2BDE400FBEA03 /* ChangeLog in Resources */,
 				CE00796D17A2BDE600FBEA03 /* project.pbxproj in Resources */,
+				CEB35D4517C517EB0038F49C /* loading.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
