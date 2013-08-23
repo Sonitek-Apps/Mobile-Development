@@ -21,6 +21,8 @@ CCScene* HelloWorld::scene()
 
 void HelloWorld::onEnter(){
     
+    CCLayer::onEnter();
+    
     // add a "close" icon to exit the progress. it's an autorelease object
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
                                                           "CloseNormal.png",
@@ -41,19 +43,29 @@ void HelloWorld::onEnter(){
     CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Thonburi", 34);
     
     // ask director the window size
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-    
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    CCPoint winMiddle(winSize.width*0.5, winSize.height*0.5);
     // position the label on the center of the screen
-    pLabel->setPosition( ccp(size.width / 2, size.height - 20) );
+    pLabel->setPosition( ccp(winSize.width / 2, winSize.height - 20) );
     
     // add the label as a child to this layer
     this->addChild(pLabel, 1);
     
     CCSpriteTouch* pTouchTest = CCSpriteTouch::create("Icon.png");
-    pTouchTest->setPosition(ccp(size.width/7,size.height-size.height/8));
+    pTouchTest->setPosition(ccp(winSize.width*0.2,winSize.height*0.8));
     this->addChild(pTouchTest);
-
-    CCLayer::onEnter();
+    
+    initDownloaderWithTarget(this);
+    
+    CCNode* testingTesting = CCNode::create();
+    testingTesting->setPosition(winMiddle);
+    this->addChild(testingTesting);
+    
+    CCString* url=CCString::create("http://www1.pictures.zimbio.com/pc/Louis+Tomlinson+One+Direction+Measured+Madame+D0oQ1dWL4xax.jpg");
+    
+    downloadTask* task=new downloadTask(testingTesting,url);
+    addTaskToDownloadQueue(task);
+    
 }
 
 void HelloWorld::onExit(){
@@ -63,11 +75,14 @@ void HelloWorld::onExit(){
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    if ( !CCLayer::init() )
-    {
-        return false;
-    }
-    return true;
+    bool bRet=false;
+    
+    do {
+        CC_BREAK_IF(!CCLayer::init());
+        bRet=true;
+    } while (false);
+    
+    return bRet;
 }
 
 void HelloWorld::menuCloseCallback(CCObject* pSender)

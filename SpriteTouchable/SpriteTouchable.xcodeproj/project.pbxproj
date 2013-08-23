@@ -268,6 +268,8 @@
 		CE007AB817A2BDE700FBEA03 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */; };
 		CE353A7217C3C79E00901014 /* CCSpriteTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */; };
 		CEB35D4517C517EB0038F49C /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB35D4417C517EB0038F49C /* loading.png */; };
+		CEDDB68817C7BFC600E798D3 /* GenxiumDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDDB68617C7BFC600E798D3 /* GenxiumDownloader.cpp */; };
+		CEDDB68A17C7C42B00E798D3 /* urlList in Resources */ = {isa = PBXBuildFile; fileRef = CEDDB68917C7C42B00E798D3 /* urlList */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -838,6 +840,9 @@
 		CE353A7117C3C79E00901014 /* CCSpriteTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSpriteTouch.h; path = Classes/CCSpriteTouch.h; sourceTree = "<group>"; };
 		CEB35D4417C517EB0038F49C /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading.png; path = Resources/loading.png; sourceTree = "<group>"; };
 		CEB35D4617C518E50038F49C /* Macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
+		CEDDB68617C7BFC600E798D3 /* GenxiumDownloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenxiumDownloader.cpp; sourceTree = "<group>"; };
+		CEDDB68717C7BFC600E798D3 /* GenxiumDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenxiumDownloader.h; sourceTree = "<group>"; };
+		CEDDB68917C7C42B00E798D3 /* urlList */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = urlList; path = Resources/urlList; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -908,6 +913,7 @@
 		CE00775117A2BDE200FBEA03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CEDDB68917C7C42B00E798D3 /* urlList */,
 				CEB35D4417C517EB0038F49C /* loading.png */,
 				CE00775217A2BDE200FBEA03 /* CloseNormal.png */,
 				CE00775417A2BDE300FBEA03 /* CloseSelected.png */,
@@ -1983,6 +1989,7 @@
 		CE007AB217A2BDE700FBEA03 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CEDDB68B17C7CD8100E798D3 /* Model */,
 				CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */,
 				CE353A7117C3C79E00901014 /* CCSpriteTouch.h */,
 				CE007AB317A2BDE700FBEA03 /* AppDelegate.h */,
@@ -1992,6 +1999,15 @@
 				CEB35D4617C518E50038F49C /* Macros.h */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		CEDDB68B17C7CD8100E798D3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CEDDB68617C7BFC600E798D3 /* GenxiumDownloader.cpp */,
+				CEDDB68717C7BFC600E798D3 /* GenxiumDownloader.h */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2058,6 +2074,7 @@
 				CE00780317A2BDE400FBEA03 /* ChangeLog in Resources */,
 				CE00796D17A2BDE600FBEA03 /* project.pbxproj in Resources */,
 				CEB35D4517C517EB0038F49C /* loading.png in Resources */,
+				CEDDB68A17C7C42B00E798D3 /* urlList in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2305,6 +2322,7 @@
 				CE007AB517A2BDE700FBEA03 /* AppDelegate.cpp in Sources */,
 				CE007AB817A2BDE700FBEA03 /* HelloWorldScene.cpp in Sources */,
 				CE353A7217C3C79E00901014 /* CCSpriteTouch.cpp in Sources */,
+				CEDDB68817C7BFC600E798D3 /* GenxiumDownloader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

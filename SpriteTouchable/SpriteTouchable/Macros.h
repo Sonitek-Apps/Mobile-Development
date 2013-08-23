@@ -9,4 +9,6 @@
 #ifndef SpriteTouchable_Macros_h
 #define SpriteTouchable_Macros_h
 
+#define urlListPath CCFileUtils::sharedFileUtils()->fullPathForFilename("urlList")
+
 #endif
