@@ -4,7 +4,7 @@
 #include "GenxiumDownloader.h"
 #include "CCSpriteTouch.h"
 
-class HelloWorld : public cocos2d::CCLayer, public GenxiumDownloader
+class HelloWorld : public cocos2d::CCLayer
 {
     
 public:

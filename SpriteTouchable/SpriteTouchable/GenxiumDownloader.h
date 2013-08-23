@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <pthread.h>
+#include <queue>
 
 #include "Macros.h"
 #include "cocos2d.h"
@@ -22,7 +23,7 @@ using namespace std;
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class downloadTask: public CCObject{
+class downloadTask:public CCObject{
 public:
     CCNode* _node;
     CCString* _url;
@@ -36,38 +37,29 @@ public:
 };
 
 class GenxiumDownloader {
-    
+public:
     CCObject* _pTarget;
-    pthread_mutex_t _downloadQuotaMutex;
-    pthread_mutex_t _downloadQueueMutex;
-    int _downloadQuota;
-    CCArray* _downloadQueue;
-    CCScheduler* _scheduler;
     bool _bInitFinished;
+    pthread_t _checkDownloadQueueThread;
     
 public:
     GenxiumDownloader():
         _pTarget(NULL),
-        _downloadQuotaMutex(PTHREAD_MUTEX_INITIALIZER),
-        _downloadQueueMutex(PTHREAD_MUTEX_INITIALIZER),
-        _downloadQuota(5),
-        _downloadQueue(NULL),
-        _scheduler(NULL),
-        _bInitFinished(false){
+        _bInitFinished(false),
+        _checkDownloadQueueThread(0){
+    
     }
     
     ~GenxiumDownloader(){
         CC_SAFE_RELEASE_NULL(_pTarget);
-        CC_SAFE_RELEASE_NULL(_downloadQueue);
-        CC_SAFE_RELEASE_NULL(_scheduler);
     };
     
 public:
     void initDownloaderWithTarget(CCObject* pTarget);
     bool addTaskToDownloadQueue(downloadTask* task);
+    void invokeCheckingDownloadQueue();
     
-private:
-    void checkDownloadQueue(float dt);
+public:
     void downloadToNode(CCNode* node, CCString* url);
     void onDownloadToNodeFinished(CCNode*, void*);
 };

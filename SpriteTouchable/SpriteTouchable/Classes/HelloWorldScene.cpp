@@ -21,6 +21,7 @@ CCScene* HelloWorld::scene()
 
 void HelloWorld::onEnter(){
     
+    
     CCLayer::onEnter();
     
     // add a "close" icon to exit the progress. it's an autorelease object
@@ -55,7 +56,8 @@ void HelloWorld::onEnter(){
     pTouchTest->setPosition(ccp(winSize.width*0.2,winSize.height*0.8));
     this->addChild(pTouchTest);
     
-    initDownloaderWithTarget(this);
+    GenxiumDownloader* downloader = new GenxiumDownloader();
+    downloader->initDownloaderWithTarget(this);
     
     CCNode* testingTesting = CCNode::create();
     testingTesting->setPosition(winMiddle);
@@ -64,8 +66,8 @@ void HelloWorld::onEnter(){
     CCString* url=CCString::create("http://www1.pictures.zimbio.com/pc/Louis+Tomlinson+One+Direction+Measured+Madame+D0oQ1dWL4xax.jpg");
     
     downloadTask* task=new downloadTask(testingTesting,url);
-    addTaskToDownloadQueue(task);
-    
+    downloader->addTaskToDownloadQueue(task);
+    downloader->invokeCheckingDownloadQueue();
 }
 
 void HelloWorld::onExit(){

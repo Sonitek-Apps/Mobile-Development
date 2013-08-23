@@ -238,7 +238,6 @@ void CCTextureCache::addImageAsync(const char *path, CCObject *target, SEL_CallF
     CCTexture2D *texture = NULL;
 
     // optimization
-
     std::string pathKey = path;
 
     pathKey = CCFileUtils::sharedFileUtils()->fullPathForFilename(pathKey.c_str());
