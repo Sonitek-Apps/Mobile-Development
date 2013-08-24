@@ -36,25 +36,20 @@ public:
     ~downloadTask(){}
 };
 
-class GenxiumDownloader {
+class GenxiumDownloader : public CCObject{
 public:
     CCObject* _pTarget;
     bool _bInitFinished;
     pthread_t _checkDownloadQueueThread;
     
 public:
-    GenxiumDownloader():
-        _pTarget(NULL),
-        _bInitFinished(false),
-        _checkDownloadQueueThread(0){
-    
-    }
-    
-    ~GenxiumDownloader(){
-        CC_SAFE_RELEASE_NULL(_pTarget);
-    };
+    static GenxiumDownloader* sharedDownloader(); // return singleton instance
+    static void purgeSharedDownloader();
+    GenxiumDownloader();
+    ~GenxiumDownloader();
     
 public:
+    
     void initDownloaderWithTarget(CCObject* pTarget);
     bool addTaskToDownloadQueue(downloadTask* task);
     void invokeCheckingDownloadQueue();
