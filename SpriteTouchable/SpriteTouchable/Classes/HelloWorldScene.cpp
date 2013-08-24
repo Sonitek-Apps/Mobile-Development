@@ -56,18 +56,15 @@ void HelloWorld::onEnter(){
     pTouchTest->setPosition(ccp(winSize.width*0.2,winSize.height*0.8));
     this->addChild(pTouchTest);
     
-    GenxiumDownloader* sharedDownloader = GenxiumDownloader::sharedDownloader();
-    sharedDownloader->initDownloaderWithTarget((CCObject*)this);
-    
     CCNode* testingTesting = CCNode::create();
     testingTesting->setPosition(winMiddle);
     this->addChild(testingTesting);
     
     CCString* url=CCString::create("http://www1.pictures.zimbio.com/pc/Louis+Tomlinson+One+Direction+Measured+Madame+D0oQ1dWL4xax.jpg");
     
-    downloadTask* task=new downloadTask(testingTesting,url);
-    sharedDownloader->addTaskToDownloadQueue(task);
-    sharedDownloader->invokeCheckingDownloadQueue();
+    downloadTask task(testingTesting,url);
+    GenxiumDownloader::sharedDownloader()->addTaskToDownloadQueue(task);
+    GenxiumDownloader::sharedDownloader()->invokeCheckingDownloadQueue();
 }
 
 void HelloWorld::onExit(){

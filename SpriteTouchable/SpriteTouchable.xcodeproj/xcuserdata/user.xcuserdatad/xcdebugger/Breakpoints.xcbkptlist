@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader.cpp"
-         timestampString = "399010592.316823"
+         timestampString = "399042921.525942"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "102"
-         endingLineNumber = "102"
+         startingLineNumber = "79"
+         endingLineNumber = "79"
          landmarkName = "GenxiumDownloader::downloadToNode(CCNode* node, CCString* url)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/Classes/HelloWorldScene.cpp"
-         timestampString = "398978591.438734"
+         timestampString = "399041392.530849"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "68"
-         endingLineNumber = "68"
+         startingLineNumber = "65"
+         endingLineNumber = "65"
          landmarkName = "HelloWorld::onEnter()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +47,37 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader.cpp"
-         timestampString = "398980398.009552"
+         timestampString = "399042921.525942"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "20"
-         endingLineNumber = "20"
+         startingLineNumber = "126"
+         endingLineNumber = "126"
+         landmarkName = "GenxiumDownloader::addTaskToDownloadQueue(downloadTask task)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SpriteTouchable/Classes/HelloWorldScene.cpp"
+         timestampString = "399041392.530849"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "57"
+         endingLineNumber = "57"
+         landmarkName = "HelloWorld::onEnter()"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SpriteTouchable/GenxiumDownloader.cpp"
+         timestampString = "399041392.530849"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "18"
+         endingLineNumber = "18"
          landmarkName = "checkDownloadQueue(void* arg)"
          landmarkType = "7">
       </FileBreakpoint>
@@ -60,20 +86,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader.cpp"
-         timestampString = "399011122.588286"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "140"
-         endingLineNumber = "140"
-         landmarkName = "GenxiumDownloader::addTaskToDownloadQueue(downloadTask* task)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "SpriteTouchable/GenxiumDownloader.cpp"
-         timestampString = "399011204.781446"
+         timestampString = "399042921.525942"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "153"
@@ -86,25 +99,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader.cpp"
-         timestampString = "399011805.112315"
+         timestampString = "399042921.525942"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "80"
-         endingLineNumber = "80"
-         landmarkName = "GenxiumDownloader::initDownloaderWithTarget(CCObject* pTarget)"
+         startingLineNumber = "138"
+         endingLineNumber = "138"
+         landmarkName = "GenxiumDownloader::invokeCheckingDownloadQueue()"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "SpriteTouchable/Classes/HelloWorldScene.cpp"
-         timestampString = "399012042.441907"
+         filePath = "SpriteTouchable/GenxiumDownloader.cpp"
+         timestampString = "399042921.525942"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "60"
-         endingLineNumber = "60"
-         landmarkName = "HelloWorld::onEnter()"
+         startingLineNumber = "78"
+         endingLineNumber = "78"
+         landmarkName = "GenxiumDownloader::downloadToNode(CCNode* node, CCString* url)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

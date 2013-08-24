@@ -23,23 +23,20 @@ using namespace std;
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class downloadTask:public CCObject{
-public:
+struct downloadTask{
+    
     CCNode* _node;
     CCString* _url;
-public:
+    
     downloadTask():_node(NULL), _url(NULL){}
     downloadTask(CCNode* node, CCString* url){
         _node=node;
         _url=url;
     }
-    ~downloadTask(){}
 };
 
 class GenxiumDownloader : public CCObject{
 public:
-    CCObject* _pTarget;
-    bool _bInitFinished;
     pthread_t _checkDownloadQueueThread;
     
 public:
@@ -50,8 +47,7 @@ public:
     
 public:
     
-    void initDownloaderWithTarget(CCObject* pTarget);
-    bool addTaskToDownloadQueue(downloadTask* task);
+    bool addTaskToDownloadQueue(downloadTask task);
     void invokeCheckingDownloadQueue();
     
 public:
