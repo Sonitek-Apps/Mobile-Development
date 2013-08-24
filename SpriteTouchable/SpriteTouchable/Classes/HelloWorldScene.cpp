@@ -54,6 +54,7 @@ void HelloWorld::onEnter(){
     
     CCSprite* spr=CCSprite::create("iTunesArtwork");
     CCSpriteTouch* pTouchTest = CCSpriteTouch::createWithSpriteAndTarget(spr, this, callfuncND_selector(HelloWorld::onSpriteTouchClicked));
+    pTouchTest->setAnchorPoint(ccp(0.5,0.5));
     pTouchTest->setPosition(ccp(winSize.width*0.5,winSize.height*0.5));
     this->addChild(pTouchTest);
     
