@@ -52,17 +52,14 @@ void HelloWorld::onEnter(){
     // add the label as a child to this layer
     this->addChild(pLabel, 1);
     
-    CCSpriteTouch* pTouchTest = CCSpriteTouch::create("Icon.png");
-    pTouchTest->setPosition(ccp(winSize.width*0.2,winSize.height*0.8));
+    CCSprite* spr=CCSprite::create("iTunesArtwork");
+    CCSpriteTouch* pTouchTest = CCSpriteTouch::createWithSpriteAndTarget(spr, this, callfuncND_selector(HelloWorld::onSpriteTouchClicked));
+    pTouchTest->setPosition(ccp(winSize.width*0.5,winSize.height*0.5));
     this->addChild(pTouchTest);
-    
-    CCNode* testingTesting = CCNode::create();
-    testingTesting->setPosition(winMiddle);
-    this->addChild(testingTesting);
     
     CCString* url=CCString::create("http://www1.pictures.zimbio.com/pc/Louis+Tomlinson+One+Direction+Measured+Madame+D0oQ1dWL4xax.jpg");
     
-    downloadTask task(testingTesting,url);
+    downloadTask task(pTouchTest,url);
     GenxiumDownloader::sharedDownloader()->addTaskToDownloadQueue(task);
     GenxiumDownloader::sharedDownloader()->invokeCheckingDownloadQueue();
 }
@@ -91,4 +88,8 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+void HelloWorld::onSpriteTouchClicked(CCNode* node, void* arg){
+    CCLOG("SpriteTouch clicked!");
 }

@@ -266,9 +266,10 @@
 		CE007AAE17A2BDE700FBEA03 /* cpVect.c in Sources */ = {isa = PBXBuildFile; fileRef = CE007AAD17A2BDE700FBEA03 /* cpVect.c */; };
 		CE007AB517A2BDE700FBEA03 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE007AB417A2BDE700FBEA03 /* AppDelegate.cpp */; };
 		CE007AB817A2BDE700FBEA03 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */; };
-		CE353A7217C3C79E00901014 /* CCSpriteTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */; };
+		CE7208F617C911AD003BB364 /* CCSpriteTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE7208F417C911AD003BB364 /* CCSpriteTouch.cpp */; };
+		CE7208FA17C911BD003BB364 /* GenxiumDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE7208F817C911BD003BB364 /* GenxiumDownloader.cpp */; };
+		CE72090217C91292003BB364 /* ImageUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72090017C91292003BB364 /* ImageUtils.cpp */; };
 		CEB35D4517C517EB0038F49C /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB35D4417C517EB0038F49C /* loading.png */; };
-		CEDDB68817C7BFC600E798D3 /* GenxiumDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDDB68617C7BFC600E798D3 /* GenxiumDownloader.cpp */; };
 		CEDDB68A17C7C42B00E798D3 /* urlList in Resources */ = {isa = PBXBuildFile; fileRef = CEDDB68917C7C42B00E798D3 /* urlList */; };
 /* End PBXBuildFile section */
 
@@ -836,12 +837,15 @@
 		CE007AB417A2BDE700FBEA03 /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		CE007AB617A2BDE700FBEA03 /* HelloWorldScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Classes/HelloWorldScene.h; sourceTree = "<group>"; };
 		CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
-		CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCSpriteTouch.cpp; path = Classes/CCSpriteTouch.cpp; sourceTree = "<group>"; };
-		CE353A7117C3C79E00901014 /* CCSpriteTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSpriteTouch.h; path = Classes/CCSpriteTouch.h; sourceTree = "<group>"; };
+		CE7208F417C911AD003BB364 /* CCSpriteTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpriteTouch.cpp; sourceTree = "<group>"; };
+		CE7208F517C911AD003BB364 /* CCSpriteTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSpriteTouch.h; sourceTree = "<group>"; };
+		CE7208F817C911BD003BB364 /* GenxiumDownloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenxiumDownloader.cpp; sourceTree = "<group>"; };
+		CE7208F917C911BD003BB364 /* GenxiumDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenxiumDownloader.h; sourceTree = "<group>"; };
+		CE72090017C91292003BB364 /* ImageUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageUtils.cpp; sourceTree = "<group>"; };
+		CE72090117C91292003BB364 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
+		CE72090317C91365003BB364 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CEB35D4417C517EB0038F49C /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading.png; path = Resources/loading.png; sourceTree = "<group>"; };
 		CEB35D4617C518E50038F49C /* Macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
-		CEDDB68617C7BFC600E798D3 /* GenxiumDownloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenxiumDownloader.cpp; sourceTree = "<group>"; };
-		CEDDB68717C7BFC600E798D3 /* GenxiumDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenxiumDownloader.h; sourceTree = "<group>"; };
 		CEDDB68917C7C42B00E798D3 /* urlList */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = urlList; path = Resources/urlList; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1989,23 +1993,66 @@
 		CE007AB217A2BDE700FBEA03 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CE7208FF17C9121C003BB364 /* View */,
+				CE7208EC17C910D4003BB364 /* Controller */,
 				CEDDB68B17C7CD8100E798D3 /* Model */,
-				CE353A7017C3C79E00901014 /* CCSpriteTouch.cpp */,
-				CE353A7117C3C79E00901014 /* CCSpriteTouch.h */,
 				CE007AB317A2BDE700FBEA03 /* AppDelegate.h */,
 				CE007AB417A2BDE700FBEA03 /* AppDelegate.cpp */,
-				CE007AB617A2BDE700FBEA03 /* HelloWorldScene.h */,
-				CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */,
 				CEB35D4617C518E50038F49C /* Macros.h */,
+				CE72090317C91365003BB364 /* Constants.h */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		CE7208EC17C910D4003BB364 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CE7208FB17C911EE003BB364 /* ImageUtils */,
+				CE7208F717C911BD003BB364 /* GenxiumDownloader */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		CE7208F317C911AD003BB364 /* CCSpriteTouch */ = {
+			isa = PBXGroup;
+			children = (
+				CE7208F417C911AD003BB364 /* CCSpriteTouch.cpp */,
+				CE7208F517C911AD003BB364 /* CCSpriteTouch.h */,
+			);
+			path = CCSpriteTouch;
+			sourceTree = "<group>";
+		};
+		CE7208F717C911BD003BB364 /* GenxiumDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				CE7208F817C911BD003BB364 /* GenxiumDownloader.cpp */,
+				CE7208F917C911BD003BB364 /* GenxiumDownloader.h */,
+			);
+			path = GenxiumDownloader;
+			sourceTree = "<group>";
+		};
+		CE7208FB17C911EE003BB364 /* ImageUtils */ = {
+			isa = PBXGroup;
+			children = (
+				CE72090017C91292003BB364 /* ImageUtils.cpp */,
+				CE72090117C91292003BB364 /* ImageUtils.h */,
+			);
+			path = ImageUtils;
+			sourceTree = "<group>";
+		};
+		CE7208FF17C9121C003BB364 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CE007AB617A2BDE700FBEA03 /* HelloWorldScene.h */,
+				CE007AB717A2BDE700FBEA03 /* HelloWorldScene.cpp */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		CEDDB68B17C7CD8100E798D3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CEDDB68617C7BFC600E798D3 /* GenxiumDownloader.cpp */,
-				CEDDB68717C7BFC600E798D3 /* GenxiumDownloader.h */,
+				CE7208F317C911AD003BB364 /* CCSpriteTouch */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2321,8 +2368,9 @@
 				CE007AAE17A2BDE700FBEA03 /* cpVect.c in Sources */,
 				CE007AB517A2BDE700FBEA03 /* AppDelegate.cpp in Sources */,
 				CE007AB817A2BDE700FBEA03 /* HelloWorldScene.cpp in Sources */,
-				CE353A7217C3C79E00901014 /* CCSpriteTouch.cpp in Sources */,
-				CEDDB68817C7BFC600E798D3 /* GenxiumDownloader.cpp in Sources */,
+				CE7208F617C911AD003BB364 /* CCSpriteTouch.cpp in Sources */,
+				CE7208FA17C911BD003BB364 /* GenxiumDownloader.cpp in Sources */,
+				CE72090217C91292003BB364 /* ImageUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

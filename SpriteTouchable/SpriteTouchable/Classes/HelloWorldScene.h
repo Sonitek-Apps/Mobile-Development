@@ -1,8 +1,8 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
 
-#include "GenxiumDownloader.h"
-#include "CCSpriteTouch.h"
+#include "../GenxiumDownloader/GenxiumDownloader.h"
+#include "../CCSpriteTouch/CCSpriteTouch.h"
 
 class HelloWorld : public cocos2d::CCLayer
 {
@@ -22,9 +22,12 @@ public:
     
     // a selector callback
     void menuCloseCallback(CCObject* pSender);
-
+    
     // preprocessor macro for "static create()" constructor ( node() deprecated )
     CREATE_FUNC(HelloWorld);
+    
+private:
+    void onSpriteTouchClicked(CCNode*, void*);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

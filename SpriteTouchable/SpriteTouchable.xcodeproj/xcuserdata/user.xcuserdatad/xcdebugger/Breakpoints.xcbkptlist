@@ -4,19 +4,6 @@
    version = "1.0">
    <FileBreakpoints>
       <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "SpriteTouchable/Classes/CCSpriteTouch.cpp"
-         timestampString = "398794007.055018"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "70"
-         endingLineNumber = "70"
-         landmarkName = "CCSpriteTouch::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
@@ -34,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/Classes/HelloWorldScene.cpp"
-         timestampString = "399041392.530849"
+         timestampString = "399054237.624009"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "65"
-         endingLineNumber = "65"
+         startingLineNumber = "62"
+         endingLineNumber = "62"
          landmarkName = "HelloWorld::onEnter()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader.cpp"
-         timestampString = "399042921.525942"
+         timestampString = "399051369.468023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "126"
-         endingLineNumber = "126"
+         startingLineNumber = "130"
+         endingLineNumber = "130"
          landmarkName = "GenxiumDownloader::addTaskToDownloadQueue(downloadTask task)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -60,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/Classes/HelloWorldScene.cpp"
-         timestampString = "399041392.530849"
+         timestampString = "399051369.468023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "57"
-         endingLineNumber = "57"
+         startingLineNumber = "58"
+         endingLineNumber = "58"
          landmarkName = "HelloWorld::onEnter()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -86,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader.cpp"
-         timestampString = "399042921.525942"
+         timestampString = "399051369.468023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "153"
-         endingLineNumber = "153"
+         startingLineNumber = "157"
+         endingLineNumber = "157"
          landmarkName = "GenxiumDownloader::invokeCheckingDownloadQueue()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -99,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader.cpp"
-         timestampString = "399042921.525942"
+         timestampString = "399051369.468023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "138"
-         endingLineNumber = "138"
+         startingLineNumber = "142"
+         endingLineNumber = "142"
          landmarkName = "GenxiumDownloader::invokeCheckingDownloadQueue()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -118,6 +105,58 @@
          startingLineNumber = "78"
          endingLineNumber = "78"
          landmarkName = "GenxiumDownloader::downloadToNode(CCNode* node, CCString* url)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SpriteTouchable/Classes/HelloWorldScene.cpp"
+         timestampString = "399051487.707091"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "56"
+         endingLineNumber = "56"
+         landmarkName = "HelloWorld::onEnter()"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SpriteTouchable/Classes/CCSpriteTouch.cpp"
+         timestampString = "399052525.940318"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "106"
+         endingLineNumber = "106"
+         landmarkName = "CCSpriteTouch::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SpriteTouchable/Classes/CCSpriteTouch.cpp"
+         timestampString = "399052525.940318"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "115"
+         endingLineNumber = "115"
+         landmarkName = "CCSpriteTouch::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "SpriteTouchable/Classes/CCSpriteTouch.cpp"
+         timestampString = "399052525.940318"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "109"
+         endingLineNumber = "109"
+         landmarkName = "CCSpriteTouch::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
