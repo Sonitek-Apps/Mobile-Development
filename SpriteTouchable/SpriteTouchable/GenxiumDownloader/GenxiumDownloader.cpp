@@ -8,14 +8,18 @@
 
 #include "GenxiumDownloader.h"
 #define defaultDownloadQuota 5
+typedef void* (*PTHREAD_FUNC_PTR)(void*);
+
 static pthread_mutex_t s_downloadQuotaMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t s_downloadQueueMutex = PTHREAD_MUTEX_INITIALIZER;
 static int s_downloadQuota = defaultDownloadQuota;
 static queue<downloadTask> s_downloadQueue;
 static bool s_bInitFinished=false;
 
-static void* checkDownloadQueue(void* arg){ // set invisible for other files
+// pthread function must have a void* return type and a void* parameter
+static void* checkDownloadQueue(void* arg){
     
+    // set invisible for other files
     GenxiumDownloader* sharedDownloader = GenxiumDownloader::sharedDownloader();
     
     do{
@@ -158,7 +162,8 @@ bool GenxiumDownloader::addTaskToDownloadQueue(downloadTask task){
 
 void GenxiumDownloader::invokeCheckingDownloadQueue(){
     if(0==_checkDownloadQueueThread){
-        int errorCodeCreateThread=pthread_create(&_checkDownloadQueueThread, NULL, &checkDownloadQueue, NULL);
+        PTHREAD_FUNC_PTR func=(&checkDownloadQueue);
+        int errorCodeCreateThread=pthread_create(&_checkDownloadQueueThread, NULL, func, NULL);
         if(0==errorCodeCreateThread){
             CCLOG("Successfully created thread");
             int errorCodeJoinThread=pthread_join(_checkDownloadQueueThread, NULL);

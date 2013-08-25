@@ -138,11 +138,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader/GenxiumDownloader.cpp"
-         timestampString = "399097149.459178"
+         timestampString = "399104188.828458"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "149"
-         endingLineNumber = "149"
+         startingLineNumber = "153"
+         endingLineNumber = "153"
          landmarkName = "GenxiumDownloader::addTaskToDownloadQueue(downloadTask task)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -151,11 +151,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader/GenxiumDownloader.cpp"
-         timestampString = "399097225.140724"
+         timestampString = "399104188.828458"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "53"
-         endingLineNumber = "53"
+         startingLineNumber = "57"
+         endingLineNumber = "57"
          landmarkName = "GenxiumDownloader::sharedDownloader()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -177,11 +177,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/GenxiumDownloader/GenxiumDownloader.cpp"
-         timestampString = "399097318.142906"
+         timestampString = "399104188.828458"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "137"
-         endingLineNumber = "137"
+         startingLineNumber = "141"
+         endingLineNumber = "141"
          landmarkName = "GenxiumDownloader::setTarget(CCObject* pTarget)"
          landmarkType = "5">
       </FileBreakpoint>
