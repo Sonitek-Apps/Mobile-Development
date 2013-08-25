@@ -12,6 +12,7 @@ static pthread_mutex_t s_downloadQuotaMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t s_downloadQueueMutex = PTHREAD_MUTEX_INITIALIZER;
 static int s_downloadQuota = defaultDownloadQuota;
 static queue<downloadTask> s_downloadQueue;
+static bool s_bInitFinished=false;
 
 static void* checkDownloadQueue(void* arg){ // set invisible for other files
     
@@ -49,6 +50,7 @@ GenxiumDownloader* GenxiumDownloader::sharedDownloader(){
     if(g_downloader==NULL){
         // reference count = 1, but not added to the pool manager
         g_downloader=new GenxiumDownloader();
+        s_bInitFinished=true;
     }
     return g_downloader;
 }
@@ -58,12 +60,13 @@ void GenxiumDownloader::purgeSharedDownloader(){
 }
 
 GenxiumDownloader::GenxiumDownloader(){
-    
     CCAssert(g_downloader==NULL, "DO NOT re-create a singleton!");
+    _pTarget=NULL;
     _checkDownloadQueueThread=0;
 }
 
 GenxiumDownloader::~GenxiumDownloader(){
+    CC_SAFE_RELEASE_NULL(_pTarget);
     purgeSharedDownloader();
 }
 
@@ -130,9 +133,20 @@ void GenxiumDownloader::onDownloadToNodeFinished(CCNode*, void* obj){
     }
 }
 
+void GenxiumDownloader::setTarget(CCObject* pTarget){
+    if(_pTarget!=NULL){
+        CC_SAFE_RELEASE_NULL(_pTarget);
+    }
+    _pTarget=pTarget;
+    if(_pTarget!=NULL){
+        CC_SAFE_RETAIN(_pTarget);
+    }
+}
+
 bool GenxiumDownloader::addTaskToDownloadQueue(downloadTask task){
     bool bRet=false;
     do{
+        CC_BREAK_IF(!s_bInitFinished);
         if(0==pthread_mutex_trylock(&s_downloadQueueMutex)){
             s_downloadQueue.push(task);
             pthread_mutex_unlock(&s_downloadQueueMutex);

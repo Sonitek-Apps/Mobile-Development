@@ -35,9 +35,7 @@ struct downloadTask{
 };
 
 class GenxiumDownloader : public CCObject, virtual public ImageUtils{
-public:
-    pthread_t _checkDownloadQueueThread;
-    
+
 public:
     static GenxiumDownloader* sharedDownloader(); // return singleton instance
     static void purgeSharedDownloader();
@@ -45,13 +43,17 @@ public:
     ~GenxiumDownloader();
     
 public:
-    
+    void setTarget(CCObject*);
     bool addTaskToDownloadQueue(downloadTask task);
     void invokeCheckingDownloadQueue();
     
 public:
     void downloadToNode(CCNode* node, CCString* url);
     void onDownloadToNodeFinished(CCNode*, void*);
+    
+private:
+    pthread_t _checkDownloadQueueThread;
+    CCObject* _pTarget;
 };
 
 #endif /* defined(__SpriteTouchable__GenxiumDownloader__) */
