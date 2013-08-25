@@ -164,11 +164,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SpriteTouchable/Classes/HelloWorldScene.cpp"
-         timestampString = "399097668.1107"
+         timestampString = "399099597.092847"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "63"
-         endingLineNumber = "63"
+         startingLineNumber = "64"
+         endingLineNumber = "64"
          landmarkName = "HelloWorld::onEnter()"
          landmarkType = "5">
       </FileBreakpoint>

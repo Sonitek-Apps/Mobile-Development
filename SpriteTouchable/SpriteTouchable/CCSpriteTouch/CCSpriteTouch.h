@@ -11,10 +11,11 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "ImageUtils.h"
 using namespace std;
 USING_NS_CC;
 
-class CCSpriteTouch: public CCNodeRGBA, public CCTargetedTouchDelegate
+class CCSpriteTouch: public CCNodeRGBA, public CCTargetedTouchDelegate, virtual public ImageUtils
 {
 public:
     CCSpriteTouch();
@@ -23,8 +24,6 @@ public:
     virtual bool initWithSpriteAndTarget(CCSprite*, CCObject* , SEL_CallFuncND);
     static CCSpriteTouch* create();
     static CCSpriteTouch* createWithSpriteAndTarget(CCSprite*, CCObject* , SEL_CallFuncND);
-    void setMainSprite(CCSprite*);
-    void setTarget(CCObject*, SEL_CallFuncND);
     virtual void onEnter();
     virtual void onExit();
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
@@ -33,20 +32,29 @@ public:
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
     
 public:
-    CCSprite* _mainSpr;
-    CCObject* _pTarget;
-    SEL_CallFuncND _pSelector;
-    CCAction* buildLoadingAction();
+    void setMainSprite(CCSprite*);
+    void setTarget(CCObject*, SEL_CallFuncND);
     void startLoading();
     void stopLoading();
+    void setPenetrable(bool);
+    bool isDragging();
+    void setScrollFriendlyThreshold(float scrollFriendlyThreshold);
+    void setTouchEnabled(bool);
+    
 private:
     // callback functions
 private:
+    CCSprite* _mainSpr;
+    CCObject* _pTarget;
+    SEL_CallFuncND _pSelector;
     CCSprite* _loadingIcon;
     CCAction* _loadingAction;
     bool _bLoading;
     float _nLoadingActionFrames;
     float _loadingActionCycle;
+    CCPoint _lastTouchBegan;
+    CCPoint _lastTouchEnded;
+    float _scrollFriendlyThreshold;
 };
 
 #endif /* defined(__SpriteTouchable__CCSpriteTouch__) */

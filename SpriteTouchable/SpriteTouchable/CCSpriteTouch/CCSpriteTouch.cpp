@@ -19,6 +19,9 @@ CCSpriteTouch::CCSpriteTouch()
     _nLoadingActionFrames=12;
     _loadingActionCycle=0.25;
     _bLoading=false;
+    _lastTouchBegan = CCPointZero;
+    _lastTouchEnded = CCPointZero;
+    _scrollFriendlyThreshold = 1e02;
 }
 
 CCSpriteTouch::~CCSpriteTouch()
@@ -66,6 +69,70 @@ CCSpriteTouch* CCSpriteTouch::createWithSpriteAndTarget(CCSprite *spr, CCObject 
     return NULL;
 }
 
+
+void CCSpriteTouch::onEnter()
+{
+    setTouchEnabled(true);
+    CCNodeRGBA::onEnter();
+}
+
+void CCSpriteTouch::onExit()
+{
+    setTouchEnabled(false);
+    CCNodeRGBA::onExit();
+}
+
+bool CCSpriteTouch::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
+    CCPoint location = pTouch->getLocation();
+    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
+    _lastTouchBegan=locationInNode;
+    CCRect box=this->boundingBox();
+    if(box.containsPoint(locationInNode)){
+        CCLog("Touch Began");
+        if(!_bLoading){
+            this->startLoading();
+        }
+        else{
+            this->stopLoading();
+        }
+    }
+    return true;
+}
+
+void CCSpriteTouch::ccTouchEnded(CCTouch* pTouch, CCEvent* pEvent)
+{
+    CCPoint location = pTouch->getLocation();
+    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
+    _lastTouchEnded=locationInNode;
+    CCRect box=this->boundingBox();
+    if(box.containsPoint(locationInNode)){
+        if(_pTarget && _pSelector && !isDragging()){
+            (_pTarget->*_pSelector)(this,NULL);
+        }
+    }
+}
+
+void CCSpriteTouch::ccTouchMoved(CCTouch* pTouch, CCEvent* pEvent)
+{
+    CCPoint location = pTouch->getLocation();
+    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
+    CCRect box=this->boundingBox();
+    if(box.containsPoint(locationInNode)){
+        //CCLog("Touch Moved");
+    }
+}
+
+void CCSpriteTouch::ccTouchCancelled(CCTouch* pTouch, CCEvent* pEvent)
+{
+    CCPoint location = pTouch->getLocation();
+    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
+    CCRect box=this->boundingBox();
+    if(box.containsPoint(locationInNode)){
+        CCLog("Touch Cancelled");
+    }
+}
+
+
 void CCSpriteTouch::setMainSprite(CCSprite *spr){
     if(_mainSpr!=NULL){
         _mainSpr->removeFromParent();
@@ -88,77 +155,6 @@ void CCSpriteTouch::setTarget(CCObject *pTarget, SEL_CallFuncND pSelector){
     _pSelector=pSelector;
 }
 
-void CCSpriteTouch::onEnter()
-{
-    CCDirector* pDirector = CCDirector::sharedDirector();
-    pDirector->getTouchDispatcher()->addTargetedDelegate(this, defaultTouchPriority, true);
-    CCNodeRGBA::onEnter();
-}
-
-void CCSpriteTouch::onExit()
-{
-    CCDirector* pDirector = CCDirector::sharedDirector();
-    pDirector->getTouchDispatcher()->removeDelegate(this);
-    CCNodeRGBA::onExit();
-}
-
-bool CCSpriteTouch::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
-    CCPoint location = pTouch->getLocation();
-    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
-
-    CCRect box=this->boundingBox();
-    if(box.containsPoint(locationInNode)){
-        CCLog("Touch Began");
-        if(!_bLoading){
-            this->startLoading();
-            if(_pTarget && _pSelector){
-                (_pTarget->*_pSelector)(this,NULL);
-            }
-        }
-        else{
-            this->stopLoading();
-        }
-    }
-    return true;
-}
-
-void CCSpriteTouch::ccTouchEnded(CCTouch* pTouch, CCEvent* pEvent)
-{
-    CCPoint location = pTouch->getLocation();
-    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
-    CCRect box=this->boundingBox();
-    if(box.containsPoint(locationInNode)){
-        CCLog("Touch Ended");
-        
-    }
-}
-
-void CCSpriteTouch::ccTouchMoved(CCTouch* pTouch, CCEvent* pEvent)
-{
-    CCPoint location = pTouch->getLocation();
-    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
-    CCRect box=this->boundingBox();
-    if(box.containsPoint(locationInNode)){
-        CCLog("Touch Moved");        
-    }
-}
-
-void CCSpriteTouch::ccTouchCancelled(CCTouch* pTouch, CCEvent* pEvent)
-{
-    CCPoint location = pTouch->getLocation();
-    CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
-    CCRect box=this->boundingBox();
-    if(box.containsPoint(locationInNode)){
-        CCLog("Touch Cancelled");
-    }
-}
-
-CCAction* CCSpriteTouch::buildLoadingAction(){
-    CCRotateBy* rotate=CCRotateBy::create(_loadingActionCycle, 360/_nLoadingActionFrames);
-    CCRepeatForever* repeatForever=CCRepeatForever::create(rotate);
-    return dynamic_cast<CCAction*>(repeatForever);
-}
-
 void CCSpriteTouch::startLoading(){
     if(!_bLoading){
         _bLoading=true;
@@ -177,5 +173,41 @@ void CCSpriteTouch::stopLoading(){
     if(_bLoading){
         _bLoading=false;
         _loadingIcon->stopAllActions();
+    }
+}
+
+void CCSpriteTouch::setPenetrable(bool bPenetrable){
+    CCDirector* pDirector=CCDirector::sharedDirector();
+    CCTouchHandler* touchHandler=pDirector->getTouchDispatcher()->findHandler(this);
+    if(touchHandler!=NULL){
+        pDirector->getTouchDispatcher()->removeDelegate(this);
+    }
+    pDirector->getTouchDispatcher()->addTargetedDelegate(this, defaultTouchPriority, !bPenetrable);
+}
+
+bool CCSpriteTouch::isDragging(){
+    float dx = _lastTouchBegan.x - _lastTouchEnded.x;
+    float dy = _lastTouchBegan.y - _lastTouchEnded.y;
+    float distanceSquare = dx*dx+dy*dy;
+    return (distanceSquare>_scrollFriendlyThreshold);
+}
+
+void CCSpriteTouch::setScrollFriendlyThreshold(float scrollFriendlyThreshold){
+    setPenetrable(true); // Scroll friendly CCSpriteTouch must be penetrable
+    _scrollFriendlyThreshold=scrollFriendlyThreshold;
+}
+
+void CCSpriteTouch::setTouchEnabled(bool bTouchEnabled){
+    CCDirector* pDirector=CCDirector::sharedDirector();
+    CCTouchHandler* touchHandler=pDirector->getTouchDispatcher()->findHandler(this);
+    if(bTouchEnabled==true){
+        if(touchHandler==NULL){
+            pDirector->getTouchDispatcher()->addTargetedDelegate(this, defaultTouchPriority, true);
+        }
+    }
+    else{
+        if(touchHandler!=NULL){
+            pDirector->getTouchDispatcher()->removeDelegate(this);
+        }
     }
 }
