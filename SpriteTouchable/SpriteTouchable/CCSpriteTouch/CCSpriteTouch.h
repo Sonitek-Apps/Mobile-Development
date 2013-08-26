@@ -21,9 +21,9 @@ public:
     CCSpriteTouch();
     virtual ~CCSpriteTouch();
     virtual bool init();
-    virtual bool initWithSpriteAndTarget(CCSprite*, CCObject* , SEL_CallFuncND);
+    virtual bool initWithTargetAndSelector(CCObject* , SEL_CallFuncND);
     static CCSpriteTouch* create();
-    static CCSpriteTouch* createWithSpriteAndTarget(CCSprite*, CCObject* , SEL_CallFuncND);
+    static CCSpriteTouch* createWithTargetAndSelector(CCObject* , SEL_CallFuncND);
     virtual void onEnter();
     virtual void onExit();
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
@@ -32,7 +32,6 @@ public:
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
     
 public:
-    void setMainSprite(CCSprite*);
     void setTarget(CCObject*, SEL_CallFuncND);
     void startLoading();
     void stopLoading();
@@ -44,7 +43,6 @@ public:
 private:
     // callback functions
 private:
-    CCSprite* _mainSpr;
     CCObject* _pTarget;
     SEL_CallFuncND _pSelector;
     CCSprite* _loadingIcon;

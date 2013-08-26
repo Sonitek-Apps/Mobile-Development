@@ -11,7 +11,6 @@
 
 CCSpriteTouch::CCSpriteTouch()
 {
-    _mainSpr=NULL;
     _pTarget=NULL;
     _pSelector=NULL;
     _loadingIcon=NULL;
@@ -37,10 +36,9 @@ bool CCSpriteTouch::init(){
     return bRet;
 }
 
-bool CCSpriteTouch::initWithSpriteAndTarget(CCSprite *spr,CCObject * pTarget, SEL_CallFuncND pSelector){
+bool CCSpriteTouch::initWithTargetAndSelector(CCObject * pTarget, SEL_CallFuncND pSelector){
     bool bRet=false;
     do {
-        setMainSprite(spr);
         setTarget(pTarget, pSelector);
         bRet=true;
     } while (false);
@@ -58,17 +56,16 @@ CCSpriteTouch* CCSpriteTouch::create()
     return NULL;
 }
 
-CCSpriteTouch* CCSpriteTouch::createWithSpriteAndTarget(CCSprite *spr, CCObject *pTarget, SEL_CallFuncND pSelector)
+CCSpriteTouch* CCSpriteTouch::createWithTargetAndSelector(CCObject *pTarget, SEL_CallFuncND pSelector)
 {
     CCSpriteTouch* pRes=new CCSpriteTouch();
-    if(pRes&&pRes->initWithSpriteAndTarget(spr, pTarget, pSelector)){
+    if(pRes&&pRes->initWithTargetAndSelector(pTarget, pSelector)){
         pRes->autorelease();
         return pRes;
     }
     CC_SAFE_DELETE(pRes);
     return NULL;
 }
-
 
 void CCSpriteTouch::onEnter()
 {
@@ -88,13 +85,7 @@ bool CCSpriteTouch::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
     _lastTouchBegan=locationInNode;
     CCRect box=this->boundingBox();
     if(box.containsPoint(locationInNode)){
-        CCLog("Touch Began");
-        if(!_bLoading){
-            this->startLoading();
-        }
-        else{
-            this->stopLoading();
-        }
+        //CCLog("Touch Began");
     }
     return true;
 }
@@ -128,20 +119,8 @@ void CCSpriteTouch::ccTouchCancelled(CCTouch* pTouch, CCEvent* pEvent)
     CCPoint locationInNode=this->getParent()->convertToNodeSpace(location);
     CCRect box=this->boundingBox();
     if(box.containsPoint(locationInNode)){
-        CCLog("Touch Cancelled");
+        //CCLog("Touch Cancelled");
     }
-}
-
-
-void CCSpriteTouch::setMainSprite(CCSprite *spr){
-    if(_mainSpr!=NULL){
-        _mainSpr->removeFromParent();
-        CC_SAFE_RELEASE_NULL(_mainSpr);
-    }
-    _mainSpr=spr;
-    _mainSpr->setAnchorPoint(ccp(0, 0));
-    this->addChild(_mainSpr);
-    this->setContentSize(_mainSpr->getContentSize());
 }
 
 void CCSpriteTouch::setTarget(CCObject *pTarget, SEL_CallFuncND pSelector){
