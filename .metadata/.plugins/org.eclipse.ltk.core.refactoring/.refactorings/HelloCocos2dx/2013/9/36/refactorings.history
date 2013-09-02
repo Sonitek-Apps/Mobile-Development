@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;HelloCocos2dx&apos;&#x0A;- Original project: &apos;HelloCocos2dx&apos;&#x0A;- Original element: &apos;HelloCocos2dx/libcocos2dx&apos;" description="Delete element" element1="/libcocos2dx" elements="1" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1378135105394" subPackages="false" version="1.0"/>
+</session>
