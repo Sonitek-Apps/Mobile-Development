@@ -1,0 +1,20 @@
+01:19:46 **** Build of configuration Default for project HelloCococ2dx ****
+/Users/user/android-ndk/ndk-build all 
+Android NDK: jni/Android.mk: Cannot find module with tag 'CocosDenshion/android' in import path    
+jni/Android.mk:21: ../../Classes/AppDelegate.cpp ../../Classes/HelloWorldScene.cpp 
+Android NDK: Are you sure your NDK_MODULE_PATH variable is properly defined ?    
+jni/Android.mk:35: *** Android NDK: Aborting.    .  Stop.
+Android NDK: The following directories were searched:    
+Android NDK:         
+01:20:31 **** Incremental Build of configuration Default for project HelloCococ2dx ****
+/Users/user/Mobile-Development/HelloCococ2dx/proj.android/build_native.sh NDK_DEBUG=1 V=1 all 
+01:24:09 **** Build of configuration Default for project HelloCococ2dx ****
+/Users/user/Mobile-Development/HelloCococ2dx/proj.android/build_native.sh NDK_DEBUG=1 V=1 all 
+01:24:20 **** Incremental Build of configuration Default for project HelloCococ2dx ****
+/Users/user/Mobile-Development/HelloCococ2dx/proj.android/build_native.sh NDK_DEBUG=1 V=1 all 
+01:24:27 **** Incremental Build of configuration Default for project HelloCococ2dx ****
+/Users/user/Mobile-Development/HelloCococ2dx/proj.android/build_native.sh NDK_DEBUG=1 V=1 all 
+01:25:29 **** Incremental Build of configuration Default for project HelloCococ2dx ****
+/Users/user/Mobile-Development/HelloCococ2dx/proj.android/build_native.sh NDK_DEBUG=1 V=1 all 
+01:25:44 **** Incremental Build of configuration Default for project HelloCococ2dx ****
+/Users/user/Mobile-Development/HelloCococ2dx/proj.android/build_native.sh NDK_DEBUG=1 V=1 all 

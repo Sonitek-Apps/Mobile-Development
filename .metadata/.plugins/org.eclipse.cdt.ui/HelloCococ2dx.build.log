@@ -1,0 +1,5 @@
+01:25:44 **** Incremental Build of configuration Default for project HelloCococ2dx ****
+/Users/user/Mobile-Development/HelloCococ2dx/proj.android/build_native.sh NDK_DEBUG=1 V=1 all 
+
+01:25:45 Build Finished (took 110ms)
+
