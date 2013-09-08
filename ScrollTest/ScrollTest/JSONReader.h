@@ -42,13 +42,8 @@ private:
     
 private:
     
-    string m_feed;
-    string m_listFilePath;
-    string m_settingFilePath;
-    
-    CCObject*          m_pTarget;        /// callback target of pSelector function
-    SEL_CallFuncO     m_pSelector;      /// callback function, e.g. MyLayer::onHttpResponse(CCObject *sender, void *data)
-    //string m_res;
+    CCObject*          m_pTarget;
+    SEL_CallFuncO     m_pSelector;
     time_t m_start;
 };
 

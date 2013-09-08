@@ -14,19 +14,20 @@
 #include "HttpClient.h"
 #include "HttpRequest.h"
 #include "HttpResponse.h"
+#include "ImageUtils.h"
 
 using namespace std;
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class SubViewPage: public CCLayer{
+class SubViewPage: public CCLayer, virtual public ImageUtils{
 public:
     SubViewPage();
     virtual ~SubViewPage();
     virtual void onEnter();
     virtual void onExit();
-    virtual bool init(CCObject* pTarget, CCArray* urls);
-    static SubViewPage* create(CCObject* pTarget, CCArray* urls);
+    virtual bool init(CCObject* pTarget, CCArray* urls, CCSize pageSize);
+    static SubViewPage* create(CCObject* pTarget, CCArray* urls, CCSize pageSize);
     
 public:
     void createNodes();
@@ -36,6 +37,8 @@ public:
 private:
     void onDownloadToNodeFinished(CCNode*, void*);
 private:
+    CCSize _gapSize;
+    CCSize _iconSize;
     CCArray* _nodes;
     CCArray* _urls;
     CCObject* _pTarget;

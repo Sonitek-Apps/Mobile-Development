@@ -269,6 +269,7 @@
 		CE1E648C17D8D88E004CCDBD /* SubViewPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E648A17D8D88E004CCDBD /* SubViewPage.cpp */; };
 		CE1E649017D8E571004CCDBD /* cJSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E648E17D8E571004CCDBD /* cJSON.cpp */; };
 		CE1E649317D8E61D004CCDBD /* JSONReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E649117D8E61D004CCDBD /* JSONReader.cpp */; };
+		CEF39D3117DCB32E00D02AB0 /* ImageUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEF39D2F17DCB32E00D02AB0 /* ImageUtils.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -842,6 +843,8 @@
 		CE1E648F17D8E571004CCDBD /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cJSON.h; sourceTree = "<group>"; };
 		CE1E649117D8E61D004CCDBD /* JSONReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSONReader.cpp; sourceTree = "<group>"; };
 		CE1E649217D8E61D004CCDBD /* JSONReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONReader.h; sourceTree = "<group>"; };
+		CEF39D2F17DCB32E00D02AB0 /* ImageUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageUtils.cpp; sourceTree = "<group>"; };
+		CEF39D3017DCB32E00D02AB0 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1997,6 +2000,8 @@
 				CE1E648F17D8E571004CCDBD /* cJSON.h */,
 				CE1E649117D8E61D004CCDBD /* JSONReader.cpp */,
 				CE1E649217D8E61D004CCDBD /* JSONReader.h */,
+				CEF39D2F17DCB32E00D02AB0 /* ImageUtils.cpp */,
+				CEF39D3017DCB32E00D02AB0 /* ImageUtils.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2313,6 +2318,7 @@
 				CE1E648C17D8D88E004CCDBD /* SubViewPage.cpp in Sources */,
 				CE1E649017D8E571004CCDBD /* cJSON.cpp in Sources */,
 				CE1E649317D8E61D004CCDBD /* JSONReader.cpp in Sources */,
+				CEF39D3117DCB32E00D02AB0 /* ImageUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2450,6 +2456,7 @@
 				CE1E648917D8D86D004CCDBD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

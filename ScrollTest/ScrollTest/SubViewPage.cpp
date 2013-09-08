@@ -29,7 +29,10 @@ void SubViewPage::onExit(){
     CCLayer::onExit();
 }
 
-bool SubViewPage::init(cocos2d::CCObject *pTarget, cocos2d::CCArray *urls){
+bool SubViewPage::init(cocos2d::CCObject *pTarget, cocos2d::CCArray *urls, CCSize pageSize){
+    
+    this->setContentSize(pageSize);
+    
     _pTarget=pTarget;
     if (_pTarget) {
         CC_SAFE_RETAIN(_pTarget);
@@ -42,9 +45,9 @@ bool SubViewPage::init(cocos2d::CCObject *pTarget, cocos2d::CCArray *urls){
     return true;
 }
 
-SubViewPage* SubViewPage::create(cocos2d::CCObject *pTarget, cocos2d::CCArray *urls){
+SubViewPage* SubViewPage::create(cocos2d::CCObject *pTarget, cocos2d::CCArray *urls, CCSize pageSize){
     SubViewPage* instance = new SubViewPage();
-    if (instance!=NULL && instance->init(pTarget, urls)) {
+    if (instance!=NULL && instance->init(pTarget, urls, pageSize)) {
         instance->autorelease();
         return instance;
     }
@@ -86,16 +89,30 @@ void SubViewPage::createNodes(){
     CC_SAFE_RETAIN(_nodes);
 
     CCSize dimensions(3,1);
-    CCSize iconSize(0.2*this->getContentSize().width, this->getContentSize().height);
-    CCPoint position(0.5*iconSize.width, 0.5*iconSize.height);
+    CCSize winSize = this->getContentSize();
+    _gapSize = CCSize(0.1*winSize.width/(dimensions.width+1), 0.1*winSize.height/(dimensions.height+1));
+    _iconSize = CCSize(
+                       (winSize.width-_gapSize.width*(dimensions.width+1))/dimensions.width,
+                       (winSize.height-_gapSize.height*(dimensions.height+1))/dimensions.height
+                       );
+    
+    CCSize(0.2*this->getContentSize().width, this->getContentSize().height);
+    
+    CCPoint position(
+                     _gapSize.width+0.5*_iconSize.width,
+                     _gapSize.height+0.5*_iconSize.height
+                     );
     
     for(int i=0;i<_urls->count();++i){
         CCNode* node = CCNode::create();
         
-        int r = (i-1)/(int)dimensions.width, c = (i-1)%(int)dimensions.width;
-        CCPoint positionTemp(position.x+c*iconSize.width, position.y-r*iconSize.height);
+        int r = i/(int)dimensions.width, c = i%(int)dimensions.width;
+        CCPoint positionTemp(
+                             position.x+c*(_iconSize.width+_gapSize.width),
+                             position.y-r*(_iconSize.height+_gapSize.height)
+                             );
         
-        node->setContentSize(iconSize);
+        node->setContentSize(_iconSize);
         node->setPosition(positionTemp);
         node->removeFromParent();
         
@@ -108,6 +125,7 @@ void SubViewPage::createNodes(){
 void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
     
     CCHttpResponse* response = (CCHttpResponse*) obj;
+    string url = response->getHttpRequest()->getUrl();
     void* pUserData = response->getHttpRequest()->getUserData();
     CCNode* node = (CCNode*) pUserData;
     
@@ -129,10 +147,11 @@ void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
             if(tex != NULL){
                 CCSprite* spr = NULL;
                 spr=CCSprite::createWithTexture(tex);
+                cropRegionOfSpriteBySizeRatio(spr, node->getContentSize());
                 node->removeAllChildren();
                 node->addChild(spr,node->getZOrder()+1);
                 // release unused pointers
-                CC_SAFE_DELETE(tex);
+                CC_SAFE_RELEASE_NULL(tex);
             }
             CC_SAFE_DELETE(pCCImage);
             

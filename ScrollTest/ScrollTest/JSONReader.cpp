@@ -10,6 +10,7 @@
 #include "Constants.h"
 
 JSONReader::JSONReader(){
+    m_pTarget = NULL;
 }
 
 JSONReader::~JSONReader(){
@@ -35,18 +36,12 @@ JSONReader* JSONReader::create(CCObject* pTarget, SEL_CallFuncO pSelector)
 bool JSONReader::init(CCObject* pTarget, SEL_CallFuncO pSelector){
     bool bRet = false;
     do {
-        // initialize feed string
-        m_feed = kFeed;
-        // initialize list file path
-        m_listFilePath = CCFileUtils::sharedFileUtils()->getWritablePath()+"urlList";
-        // initialize setting file path
-        m_settingFilePath = CCFileUtils::sharedFileUtils()->getWritablePath()+"setting";
         
         m_pTarget = pTarget;
         CC_SAFE_RETAIN(m_pTarget);
         m_pSelector = pSelector;
         
-        bool bCheckListFile = false; //isListFileUpToDate();
+        bool bCheckListFile = isListFileUpToDate();
         if(!bCheckListFile){
             CCLog("Updating JSON list");
             downloadJSON();
@@ -56,13 +51,13 @@ bool JSONReader::init(CCObject* pTarget, SEL_CallFuncO pSelector){
             if (m_pTarget && m_pSelector)
             {
                 (m_pTarget->*m_pSelector)(this);
+                if ( m_pTarget ) {
+                    m_pTarget->release();
+                    m_pTarget = NULL;
+                }
             }
             else{
                 CCLog("Cannot call back from JSONReader!");
-            }
-            if ( m_pTarget ) {
-                m_pTarget->release();
-                m_pTarget = NULL;
             }
         }
         bRet = true;
@@ -74,7 +69,7 @@ void JSONReader::downloadJSON(){
     CCLog( "start to download" );
     
     cocos2d::extension::CCHttpRequest *request = new extension::CCHttpRequest();
-    request->setUrl(m_feed.c_str());
+    request->setUrl(kFeed);
     request->setRequestType(extension::CCHttpRequest::kHttpGet);
     request->setResponseCallback(this, callfuncND_selector(JSONReader::onJSONDownloadFinished));
     request->setTag("tactskySlidePuzzle");
@@ -90,7 +85,8 @@ void JSONReader::downloadJSON(){
 
 bool JSONReader::isListFileUpToDate(){
     bool bRet = false;
-    FILE* fp = fopen(m_settingFilePath.c_str(),"r");
+    string path = settingPath;
+    FILE* fp = fopen(path.c_str(),"r");
     if(fp) {
         char buf[256];
         if(fgets(buf, 256, fp)){
@@ -117,7 +113,8 @@ bool JSONReader::isListFileUpToDate(){
 
 bool JSONReader::updateListFile(){
     bool bRet = false;
-    FILE* fp = fopen(m_settingFilePath.c_str(),"w");
+    string path = settingPath;
+    FILE* fp = fopen(path.c_str(),"w");
     if(fp) {
         char buf[256];
         time_t currentTime = time(0);
@@ -149,7 +146,8 @@ void JSONReader::onJSONDownloadFinished(CCNode* , void* obj){
     
     std::vector<char> *data = response->getResponseData();
     cJSON *cJsonRootArray = cJSON_Parse(data->data());
-    FILE* fp = fopen(m_listFilePath.c_str(),"w");
+    string path = feedListPath;
+    FILE* fp = fopen(path.c_str(),"w");
     
     if (cJsonRootArray) {
         int arraySize = cJSON_GetArraySize(cJsonRootArray);
