@@ -269,6 +269,7 @@
 		CE1E648C17D8D88E004CCDBD /* SubViewPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E648A17D8D88E004CCDBD /* SubViewPage.cpp */; };
 		CE1E649017D8E571004CCDBD /* cJSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E648E17D8E571004CCDBD /* cJSON.cpp */; };
 		CE1E649317D8E61D004CCDBD /* JSONReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E649117D8E61D004CCDBD /* JSONReader.cpp */; };
+		CEA0586617FA67AE008D341D /* CCHttpClientEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEA0586417FA67AE008D341D /* CCHttpClientEx.cpp */; };
 		CEF39D3117DCB32E00D02AB0 /* ImageUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEF39D2F17DCB32E00D02AB0 /* ImageUtils.cpp */; };
 /* End PBXBuildFile section */
 
@@ -843,6 +844,8 @@
 		CE1E648F17D8E571004CCDBD /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cJSON.h; sourceTree = "<group>"; };
 		CE1E649117D8E61D004CCDBD /* JSONReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSONReader.cpp; sourceTree = "<group>"; };
 		CE1E649217D8E61D004CCDBD /* JSONReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONReader.h; sourceTree = "<group>"; };
+		CEA0586417FA67AE008D341D /* CCHttpClientEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCHttpClientEx.cpp; sourceTree = "<group>"; };
+		CEA0586517FA67AE008D341D /* CCHttpClientEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCHttpClientEx.h; sourceTree = "<group>"; };
 		CEF39D2F17DCB32E00D02AB0 /* ImageUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageUtils.cpp; sourceTree = "<group>"; };
 		CEF39D3017DCB32E00D02AB0 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2002,6 +2005,8 @@
 				CE1E649217D8E61D004CCDBD /* JSONReader.h */,
 				CEF39D2F17DCB32E00D02AB0 /* ImageUtils.cpp */,
 				CEF39D3017DCB32E00D02AB0 /* ImageUtils.h */,
+				CEA0586417FA67AE008D341D /* CCHttpClientEx.cpp */,
+				CEA0586517FA67AE008D341D /* CCHttpClientEx.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2312,6 +2317,7 @@
 				CE1E647417D8D86D004CCDBD /* cpSpaceStep.c in Sources */,
 				CE1E647617D8D86D004CCDBD /* cpSpatialIndex.c in Sources */,
 				CE1E647817D8D86D004CCDBD /* cpSweep1D.c in Sources */,
+				CEA0586617FA67AE008D341D /* CCHttpClientEx.cpp in Sources */,
 				CE1E647A17D8D86D004CCDBD /* cpVect.c in Sources */,
 				CE1E648117D8D86D004CCDBD /* AppDelegate.cpp in Sources */,
 				CE1E648417D8D86D004CCDBD /* HelloWorldScene.cpp in Sources */,

@@ -148,11 +148,11 @@ void HelloWorld::loadListBuffer(){
         _urlDict = CCDictionary::create();
         CC_SAFE_RETAIN(_urlDict);
         
-        string path = feedListPath;
+        string path = kFeedListPath;
         FILE* fp=fopen(path.c_str(),"r");
         if(fp){
             
-            char buf[defaultBufferSize];
+            char buf[kDefaultBufferSize];
             memset(buf,0,sizeof(buf));
         
             int limit = _numberOfPhotosPerPage*_numberOfPages;

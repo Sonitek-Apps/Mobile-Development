@@ -8,6 +8,7 @@
 
 #include "SubViewPage.h"
 #include "Constants.h"
+#include "CCHttpClientEx.h"
 
 SubViewPage::SubViewPage(){
     _nodes = NULL;
@@ -64,9 +65,7 @@ void SubViewPage::downloadToNode(const string &url, cocos2d::CCNode *node){
     request->setUserData(node);
     
     // send request
-    CCHttpClient* client = CCHttpClient::getInstance();
-    client->setTimeoutForConnect(connnectionTimeout);
-    client->setTimeoutForRead(readTimeout);
+    CCHttpClientEx* client = CCHttpClientEx::getInstance();
     client->send(request);
     
     request->release();

@@ -177,8 +177,8 @@ __int64_t ImageUtils::getDayDiffBetweenDates(string date1, string date2){
 bool ImageUtils::isInNameMap(CCString* url){
     bool bRet=false;
     do{
-        CCString* key=CCString::createWithFormat("%s%s",nameMapPrefix,url->getCString());
-        string valueStr=sharedSaveFile->getStringForKey(key->getCString());
+        CCString* key=CCString::createWithFormat("%s%s",kNameMapPrefix,url->getCString());
+        string valueStr=kSharedSaveFile->getStringForKey(key->getCString());
         bRet=(valueStr.size()>0);
     }while(false);
     return bRet;

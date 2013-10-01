@@ -75,8 +75,6 @@ void JSONReader::downloadJSON(){
     request->setTag("tactskySlidePuzzle");
     
     CCHttpClient* client = CCHttpClient::getInstance();
-    client->setTimeoutForConnect(connnectionTimeout);
-    client->setTimeoutForRead(readTimeout);
     client->send(request);
     request->release();
     
@@ -85,7 +83,7 @@ void JSONReader::downloadJSON(){
 
 bool JSONReader::isListFileUpToDate(){
     bool bRet = false;
-    string path = settingPath;
+    string path = kSettingPath;
     FILE* fp = fopen(path.c_str(),"r");
     if(fp) {
         char buf[256];
@@ -113,7 +111,7 @@ bool JSONReader::isListFileUpToDate(){
 
 bool JSONReader::updateListFile(){
     bool bRet = false;
-    string path = settingPath;
+    string path = kSettingPath;
     FILE* fp = fopen(path.c_str(),"w");
     if(fp) {
         char buf[256];
@@ -146,7 +144,7 @@ void JSONReader::onJSONDownloadFinished(CCNode* , void* obj){
     
     std::vector<char> *data = response->getResponseData();
     cJSON *cJsonRootArray = cJSON_Parse(data->data());
-    string path = feedListPath;
+    string path = kFeedListPath;
     FILE* fp = fopen(path.c_str(),"w");
     
     if (cJsonRootArray) {
