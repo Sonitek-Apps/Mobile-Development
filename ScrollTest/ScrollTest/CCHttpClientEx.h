@@ -50,7 +50,6 @@ public:
      */
     inline int getTimeoutForConnect() {return _timeoutForConnect;}
     
-    
     /**
      * Change the download timeout
      * @param value

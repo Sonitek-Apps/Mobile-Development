@@ -67,7 +67,8 @@ void SubViewPage::downloadToNode(const string &url, cocos2d::CCNode *node){
     // send request
     CCHttpClientEx* client = CCHttpClientEx::getInstance();
     client->send(request);
-    
+    client->setTimeoutForConnect(kConnnectionTimeout);
+    client->setTimeoutForRead(kReadTimeout);
     request->release();
 }
 
@@ -130,12 +131,16 @@ void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
     
     if (node) {
         do{
+            CC_BREAK_IF(!this || !this->isRunning());
             
             if(pUserData==NULL || !response->isSucceed()){
                 CCLog("Receive Error! %s\n",response->getErrorBuffer());
+                if(node!=NULL){
+                    // re-download
+                    downloadToNode(url, node);
+                }
                 break;
             }
-            CC_BREAK_IF(!this || !this->isRunning());
             
             std::vector<char> *buffer = response->getResponseData();
             CCImage * pCCImage=new CCImage();

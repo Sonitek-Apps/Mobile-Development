@@ -75,6 +75,8 @@ void JSONReader::downloadJSON(){
     request->setTag("tactskySlidePuzzle");
     
     CCHttpClient* client = CCHttpClient::getInstance();
+    client->setTimeoutForConnect(kConnnectionTimeout);
+    client->setTimeoutForRead(kReadTimeout);
     client->send(request);
     request->release();
     
