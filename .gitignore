@@ -1,0 +1,10 @@
+*.o
+*.d
+*.class
+*.index
+*.resources
+*.launch
+*.dat
+*.tree
+*.prefs
+*.a
