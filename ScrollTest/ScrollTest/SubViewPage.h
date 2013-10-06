@@ -42,6 +42,8 @@ private:
     CCArray* _nodes;
     CCArray* _urls;
     CCObject* _pTarget;
+    
+    CC_SYNTHESIZE(bool, _active, Active);
 };
 
 #endif /* defined(__ScrollTest__SubViewPage__) */

@@ -1,19 +1,26 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Constants.h"
+#include "math.h"
 
 HelloWorld::HelloWorld(){
     _bLoadListBufferFinished=false;
     _numberOfPhotosPerPage=3;
-    _numberOfPages=3;
-    _pScorll=NULL;
+    _numberOfPages=100;
+    _pScroll=NULL;
     _urlDict=NULL;
     _pageDict=NULL;
     _jsonReader=NULL;
+    _previousOffsetY=0;
+    _scrollExceedingTop=false;
+    _scrollExceedingBottom=false;
+    _scrollBouncingFromTop=false;
+    _scrollBouncingFromBottom=false;
+    _sizeScrollPage=CCSize(0,0);
 }
 
 HelloWorld::~HelloWorld(){
-    CC_SAFE_RELEASE_NULL(_pScorll);
+    CC_SAFE_RELEASE_NULL(_pScroll);
     CC_SAFE_RELEASE_NULL(_urlDict);
     CC_SAFE_RELEASE_NULL(_pageDict);
 }
@@ -32,7 +39,98 @@ void HelloWorld::onExit(){
 
 void HelloWorld::scrollViewDidScroll(cocos2d::extension::CCScrollView *view){
     CCPoint offset = view->getContentOffset();
-    CCLOG("%.2lf", offset.y);
+    
+    if(offset.y<view->minContainerOffset().y){
+        // exceeding or bouncing back states
+        if(_previousOffsetY>=offset.y){
+            // exceeding top
+            _scrollExceedingTop=true; _scrollExceedingBottom=false;
+            _scrollBouncingFromTop=false; _scrollBouncingFromBottom=false;
+            
+            CCLog("Exceeding Top!");
+        }
+        else{
+            // bouncing from top
+            _scrollExceedingTop=false; _scrollExceedingBottom=false;
+            _scrollBouncingFromTop=true; _scrollBouncingFromBottom=false;
+            CCLog("Bouncing from Top!");
+        }
+    }
+    
+    else if(offset.y>view->maxContainerOffset().y){
+        // exceeding or bouncing back states
+        if(_previousOffsetY<=offset.y){
+            // exceeding bottom
+            _scrollExceedingTop=false; _scrollExceedingBottom=true;
+            _scrollBouncingFromTop=false; _scrollBouncingFromBottom=false;
+            CCLog("Exceeding Bottom!");
+        }
+        else{
+            // bouncing from bottom
+            _scrollExceedingTop=false; _scrollExceedingBottom=false;
+            _scrollBouncingFromTop=false; _scrollBouncingFromBottom=true;
+            CCLog("Bouncing from Bottom");
+        }
+    }
+    else{
+        // returning to normal
+        if(_scrollBouncingFromTop){
+            _scrollBouncingFromTop=false;
+            CCLog("Returned by bouncing from top");
+        }
+        else if(_scrollBouncingFromBottom){
+            _scrollBouncingFromBottom=false;
+            CCLog("Returned by bouncing from bottom");
+        }
+        // normal
+        else{
+            if(_bLoadListBufferFinished){
+                
+                int currentPage = (int)floor((offset.y - view->minContainerOffset().y)/_sizeScrollPage.height);
+                int previousPage = (int)floor((_previousOffsetY - view->minContainerOffset().y)/_sizeScrollPage.height);
+                
+                if ( currentPage==previousPage ) {
+                    return;
+                }
+                
+                CCHttpClient::getInstance()->destroyInstance();
+                
+                int cleanOrder[]={currentPage-2, currentPage+2};
+                int addOrder[]={currentPage+1, currentPage-1, currentPage};
+                int cleanOrderLength=sizeof(cleanOrder)/sizeof(int);
+                int addOrderLength=sizeof(addOrder)/sizeof(int);
+                
+                for(int i=0;i<cleanOrderLength;++i){
+                    bool bPageAvailable = (cleanOrder[i]>=0 && cleanOrder[i]<_numberOfPages);
+                    if(bPageAvailable){
+                        intptr_t key = cleanOrder[i];
+                        SubViewPage* page = (SubViewPage*)_pageDict->objectForKey(key);
+                        if(page){
+                            page->cleanupNodes();
+                        } else{
+                            CCLOG("Page not found!");
+                        }
+                    }
+                }
+                
+                for(int i=0;i<addOrderLength;++i){
+                    bool bPageAvailable = (addOrder[i]>=0 && addOrder[i]<_numberOfPages);
+                    if(bPageAvailable){
+                        intptr_t key = addOrder[i];
+                        SubViewPage* page = (SubViewPage*)_pageDict->objectForKey(key);
+                        if(page){
+                            page->downloadAll();
+                        }else{
+                            CCLOG("Page not found!");
+                        }
+                    }
+                }
+                
+                CCLog("Currently at page# %d", currentPage);
+            }
+        }
+        _previousOffsetY=offset.y; //  store the previous position of the scroll offset
+    }
 }
 
 void HelloWorld::scrollViewDidZoom(cocos2d::extension::CCScrollView *view){
@@ -99,13 +197,14 @@ bool HelloWorld::init()
 
     // add "HelloWorld" splash screen"
     
-    _pScorll = CCScrollView::create(CCSize(size.width, size.height));
-    _pScorll->setContentSize(CCSize(size.width, 3*size.height));
-    _pScorll->setAnchorPoint(CCPointZero);
-    _pScorll->setDirection(kCCScrollViewDirectionVertical);
-    _pScorll->setDelegate(this);
-    
-    this->addChild(_pScorll);
+    _sizeScrollPage.setSize( size.width, size.height*0.5);
+    _pScroll = CCScrollView::create(CCSize(size.width, size.height));
+    _pScroll->setContentSize(CCSize(size.width, _numberOfPages*_sizeScrollPage.height));
+    _pScroll->setAnchorPoint(CCPointZero);
+    _pScroll->setDirection(kCCScrollViewDirectionVertical);
+    _pScroll->setDelegate(this);
+
+    this->addChild(_pScroll);
     
     return true;
 }
@@ -133,12 +232,12 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
 void HelloWorld::addPage(int pageOrder){
     intptr_t key = pageOrder;
     CCArray* urls = (CCArray*)(_urlDict->objectForKey(key));
-    CCSize pageSize = CCSize(_pScorll->getViewSize().width, _pScorll->getViewSize().height);
+    CCSize pageSize = _sizeScrollPage;
     SubViewPage* page = SubViewPage::create(this, urls, pageSize);
-    CCPoint position = ccp(0, _pScorll->getContentSize().height-(pageOrder+1)*pageSize.height);
+    CCPoint position = ccp(0, _pScroll->getContentSize().height-(pageOrder+1)*pageSize.height);
     page->setPosition(position);
     _pageDict->setObject(page, key);
-    _pScorll->addChild(page);
+    _pScroll->addChild(page);
 }
 
 void HelloWorld::loadListBuffer(){
@@ -192,10 +291,12 @@ void HelloWorld::loadListBuffer(){
         }
         fclose(fp);
     
-        _pScorll->setContentOffset(_pScorll->minContainerOffset());
-        
+        _pScroll->setContentOffset(_pScroll->minContainerOffset());
+        _previousOffsetY = _pScroll->minContainerOffset().y;
         _pageDict = CCDictionary::create();
         CC_SAFE_RETAIN(_pageDict);
+        
+        int numberOfPreloadPages=3;
         // add pages
         for(int pageOrder = 0; pageOrder < _numberOfPages; ++pageOrder){
             // addPageOfDate will add a CCLayer both to the scroll and _pagesDict
@@ -203,7 +304,7 @@ void HelloWorld::loadListBuffer(){
         }
         
         // preloading
-        for(int pageOrder = 0; pageOrder<_numberOfPages ; ++pageOrder){
+        for(int pageOrder = 0; pageOrder<numberOfPreloadPages ; ++pageOrder){
             intptr_t key = pageOrder;
             SubViewPage* pPage= (SubViewPage*) _pageDict->objectForKey(key);
             if(pPage){

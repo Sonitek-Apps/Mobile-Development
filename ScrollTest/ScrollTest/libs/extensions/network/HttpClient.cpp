@@ -258,6 +258,18 @@ int processGetTask(CCHttpRequest *request, write_callback callback, void *stream
         {
             break;
         }
+        
+        code = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+        if (code != CURLE_OK)
+        {
+            break;
+        }
+        
+        code = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, false);
+        if (code != CURLE_OK)
+        {
+            break;
+        }
 
         code = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
         if (code != CURLE_OK) 
@@ -462,6 +474,9 @@ void CCHttpClient::send(CCHttpRequest* request)
 void CCHttpClient::dispatchResponseCallbacks(float delta)
 {
     // CCLog("CCHttpClient::dispatchResponseCallbacks is running");
+    if(s_responseQueue==NULL){
+        return;
+    }
     
     CCHttpResponse* response = NULL;
     

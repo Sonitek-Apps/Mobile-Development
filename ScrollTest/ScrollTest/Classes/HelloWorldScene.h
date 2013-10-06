@@ -37,10 +37,18 @@ private:
     bool _bLoadListBufferFinished;
     int _numberOfPhotosPerPage;
     int _numberOfPages;
-    CCScrollView* _pScorll;
+    CCScrollView* _pScroll;
     CCDictionary* _urlDict;
     CCDictionary* _pageDict;
     JSONReader* _jsonReader;
+    
+    float _previousOffsetY;
+    bool _scrollExceedingTop;
+    bool _scrollExceedingBottom;
+    bool _scrollBouncingFromTop;
+    bool _scrollBouncingFromBottom;
+    
+    CCSize _sizeScrollPage;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

@@ -2,7 +2,7 @@
 //  CCHttpClientEx.cpp
 //  Puzzle
 //
-//  Created by Tact Sky on 16/9/13.
+//  Created by Wing on 16/9/13.
 //
 //
 
@@ -21,6 +21,8 @@ static pthread_mutex_t		s_SleepMutex;
 static pthread_cond_t		s_SleepCondition;
 
 static unsigned long    s_asyncRequestCount = 0;
+
+static pthread_mutex_t s_bKillMutex=PTHREAD_MUTEX_INITIALIZER;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 typedef int int32_t;
@@ -47,12 +49,17 @@ size_t writeData(void *ptr, size_t size, size_t nmemb, void *stream)
     // add data to the end of recvBuffer
     // write data maybe called more than once in a single request
     recvBuffer->insert(recvBuffer->end(), (char*)ptr, (char*)ptr+sizes);
-    /*
-     if(bIsKilled){
-     // use need_quit to terminate both the networkThread and curl write-data process
-     return CURLE_WRITE_ERROR;
-     }
-     */
+    
+    bool killSignal=false;
+    if(0==pthread_mutex_trylock(&s_bKillMutex)){
+        killSignal=bIsKilled;
+        pthread_mutex_unlock(&s_bKillMutex);
+    }
+    if(killSignal==true){
+        // use need_quit to terminate both the networkThread and curl write-data process
+        return CURLE_WRITE_ERROR;
+    }
+    
     return sizes;
 }
 
@@ -152,7 +159,13 @@ static void* networkThread(void *data)
         }
         pthread_mutex_unlock(&s_requestQueueMutex);
         
-        if (NULL == request || true == bIsKilled) // suspend the thread on requestQueue empty or intentionally halted
+        bool killSignal=false;
+        if(0==pthread_mutex_trylock(&s_bKillMutex)){
+            killSignal=bIsKilled;
+            pthread_mutex_unlock(&s_bKillMutex);
+        }
+        
+        if (NULL == request || true == killSignal) // suspend the thread on requestQueue empty or intentionally halted
         {
         	// Wait for http request tasks from main thread
         	pthread_cond_wait(&s_SleepCondition, &s_SleepMutex);
@@ -428,8 +441,12 @@ CCHttpClientEx::~CCHttpClientEx()
 //Lazy create semaphore & mutex & thread
 bool CCHttpClientEx::lazyInitThreadSemphore()
 {
-    if (s_requestQueue != NULL) {
+    if(0==pthread_mutex_trylock(&s_bKillMutex)){
         bIsKilled = false;
+        pthread_mutex_unlock(&s_bKillMutex);
+    }
+    
+    if (s_requestQueue != NULL) {
         return true;
     } else {
         
@@ -449,7 +466,6 @@ bool CCHttpClientEx::lazyInitThreadSemphore()
         pthread_detach(s_networkThread);
         
         need_quit = false;
-        bIsKilled = false;
     }
     
     return true;
@@ -519,9 +535,17 @@ void CCHttpClientEx::dispatchResponseCallbacks(float delta)
 }
 
 void CCHttpClientEx::killNetworkThread(){
-    bIsKilled=true;
+    if(0==pthread_mutex_trylock(&s_bKillMutex)){
+        bIsKilled=true;
+        pthread_mutex_unlock(&s_bKillMutex);
+    }
 }
 
 bool CCHttpClientEx::isKilled(){
-    return bIsKilled;
+    bool ret=false;
+    if(0==pthread_mutex_trylock(&s_bKillMutex)){
+        ret=bIsKilled;
+        pthread_mutex_unlock(&s_bKillMutex);
+    }
+    return ret;
 }

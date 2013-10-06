@@ -73,6 +73,9 @@ void SubViewPage::downloadToNode(const string &url, cocos2d::CCNode *node){
 }
 
 void SubViewPage::downloadAll(){
+    
+    setActive(true);
+    
     CCObject* pObject=NULL;
     int i=0;
     CCARRAY_FOREACH(_urls, pObject){
@@ -122,6 +125,19 @@ void SubViewPage::createNodes(){
     
 }
 
+void SubViewPage::cleanupNodes(){
+    
+    setActive(false);
+    
+    for(int i=0;i<_nodes->count();++i){
+        CCNode* node = (CCNode*) _nodes->objectAtIndex(i);
+        if(node!=NULL && node->retainCount()>0){
+            // remove sprites from node
+            node->removeAllChildren();
+        }
+    }
+}
+
 void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
     
     CCHttpResponse* response = (CCHttpResponse*) obj;
@@ -132,6 +148,9 @@ void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
     if (node) {
         do{
             CC_BREAK_IF(!this || !this->isRunning());
+            if(getActive()==false){
+                return;
+            }
             
             if(pUserData==NULL || !response->isSucceed()){
                 CCLog("Receive Error! %s\n",response->getErrorBuffer());
