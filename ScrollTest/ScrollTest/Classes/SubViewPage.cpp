@@ -85,6 +85,7 @@ void SubViewPage::downloadAll(){
         CCSprite* loadingIcon=CCSprite::create("loading.png");
         CCRotateBy* rotation=CCRotateBy::create(0.1, 10);
         CCRepeatForever* action=CCRepeatForever::create(rotation);
+        node->removeAllChildren();
         node->addChild(loadingIcon);
         loadingIcon->runAction(action);
         downloadToNode(url->getCString(), node);
@@ -134,6 +135,7 @@ void SubViewPage::createNodes(){
 void SubViewPage::cleanupNodes(){
     
     setActive(false);
+    CCHttpClientEx::getInstance()->haltNetworkThread();
     
     for(int i=0;i<_nodes->count();++i){
         CCNode* node = (CCNode*) _nodes->objectAtIndex(i);

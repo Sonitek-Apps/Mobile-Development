@@ -93,8 +93,6 @@ void HelloWorld::scrollViewDidScroll(cocos2d::extension::CCScrollView *view){
                     return;
                 }
                 
-                CCHttpClient::getInstance()->destroyInstance();
-                
                 int cleanOrder[]={currentPage-2, currentPage+2};
                 int addOrder[]={currentPage+1, currentPage-1, currentPage};
                 int cleanOrderLength=sizeof(cleanOrder)/sizeof(int);
