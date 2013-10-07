@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ScrollTest/SubViewPage.cpp"
-            timestampString = "402768208.199372"
+            timestampString = "402858987.938257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "SubViewPage::cleanupNodes()"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ScrollTest/SubViewPage.cpp"
-            timestampString = "402768208.199372"
+            timestampString = "402858987.938257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj)"
             landmarkType = "5">
          </BreakpointContent>

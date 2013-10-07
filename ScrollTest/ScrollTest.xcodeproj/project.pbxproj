@@ -266,11 +266,13 @@
 		CE1E647A17D8D86D004CCDBD /* cpVect.c in Sources */ = {isa = PBXBuildFile; fileRef = CE1E647917D8D86D004CCDBD /* cpVect.c */; };
 		CE1E648117D8D86D004CCDBD /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E648017D8D86D004CCDBD /* AppDelegate.cpp */; };
 		CE1E648417D8D86D004CCDBD /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E648317D8D86D004CCDBD /* HelloWorldScene.cpp */; };
-		CE1E648C17D8D88E004CCDBD /* SubViewPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E648A17D8D88E004CCDBD /* SubViewPage.cpp */; };
-		CE1E649017D8E571004CCDBD /* cJSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E648E17D8E571004CCDBD /* cJSON.cpp */; };
-		CE1E649317D8E61D004CCDBD /* JSONReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1E649117D8E61D004CCDBD /* JSONReader.cpp */; };
-		CEA0586617FA67AE008D341D /* CCHttpClientEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEA0586417FA67AE008D341D /* CCHttpClientEx.cpp */; };
-		CEF39D3117DCB32E00D02AB0 /* ImageUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEF39D2F17DCB32E00D02AB0 /* ImageUtils.cpp */; };
+		CE9F43601803197000B2A9D2 /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = CE9F435F1803197000B2A9D2 /* loading.png */; };
+		CE9F4376180324BE00B2A9D2 /* CCHttpClientEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9F4366180324BE00B2A9D2 /* CCHttpClientEx.cpp */; };
+		CE9F4377180324BE00B2A9D2 /* CCHttpClientExMultiThreading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9F4368180324BE00B2A9D2 /* CCHttpClientExMultiThreading.cpp */; };
+		CE9F4378180324BE00B2A9D2 /* cJSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9F436A180324BE00B2A9D2 /* cJSON.cpp */; };
+		CE9F437A180324BE00B2A9D2 /* ImageUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9F436F180324BE00B2A9D2 /* ImageUtils.cpp */; };
+		CE9F437B180324BE00B2A9D2 /* JSONReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9F4371180324BE00B2A9D2 /* JSONReader.cpp */; };
+		CE9F437C180324BE00B2A9D2 /* SubViewPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9F4373180324BE00B2A9D2 /* SubViewPage.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -837,17 +839,20 @@
 		CE1E648017D8D86D004CCDBD /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		CE1E648217D8D86D004CCDBD /* HelloWorldScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Classes/HelloWorldScene.h; sourceTree = "<group>"; };
 		CE1E648317D8D86D004CCDBD /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
-		CE1E648A17D8D88E004CCDBD /* SubViewPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SubViewPage.cpp; sourceTree = "<group>"; };
-		CE1E648B17D8D88E004CCDBD /* SubViewPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubViewPage.h; sourceTree = "<group>"; };
-		CE1E648D17D8E0BB004CCDBD /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		CE1E648E17D8E571004CCDBD /* cJSON.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cJSON.cpp; sourceTree = "<group>"; };
-		CE1E648F17D8E571004CCDBD /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cJSON.h; sourceTree = "<group>"; };
-		CE1E649117D8E61D004CCDBD /* JSONReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSONReader.cpp; sourceTree = "<group>"; };
-		CE1E649217D8E61D004CCDBD /* JSONReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONReader.h; sourceTree = "<group>"; };
-		CEA0586417FA67AE008D341D /* CCHttpClientEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCHttpClientEx.cpp; sourceTree = "<group>"; };
-		CEA0586517FA67AE008D341D /* CCHttpClientEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCHttpClientEx.h; sourceTree = "<group>"; };
-		CEF39D2F17DCB32E00D02AB0 /* ImageUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageUtils.cpp; sourceTree = "<group>"; };
-		CEF39D3017DCB32E00D02AB0 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
+		CE9F435F1803197000B2A9D2 /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loading.png; path = Resources/loading.png; sourceTree = "<group>"; };
+		CE9F4366180324BE00B2A9D2 /* CCHttpClientEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCHttpClientEx.cpp; path = Classes/CCHttpClientEx.cpp; sourceTree = "<group>"; };
+		CE9F4367180324BE00B2A9D2 /* CCHttpClientEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCHttpClientEx.h; path = Classes/CCHttpClientEx.h; sourceTree = "<group>"; };
+		CE9F4368180324BE00B2A9D2 /* CCHttpClientExMultiThreading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCHttpClientExMultiThreading.cpp; path = Classes/CCHttpClientExMultiThreading.cpp; sourceTree = "<group>"; };
+		CE9F4369180324BE00B2A9D2 /* CCHttpClientExMultiThreading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCHttpClientExMultiThreading.h; path = Classes/CCHttpClientExMultiThreading.h; sourceTree = "<group>"; };
+		CE9F436A180324BE00B2A9D2 /* cJSON.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cJSON.cpp; path = Classes/cJSON.cpp; sourceTree = "<group>"; };
+		CE9F436B180324BE00B2A9D2 /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cJSON.h; path = Classes/cJSON.h; sourceTree = "<group>"; };
+		CE9F436C180324BE00B2A9D2 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Classes/Constants.h; sourceTree = "<group>"; };
+		CE9F436F180324BE00B2A9D2 /* ImageUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageUtils.cpp; path = Classes/ImageUtils.cpp; sourceTree = "<group>"; };
+		CE9F4370180324BE00B2A9D2 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageUtils.h; path = Classes/ImageUtils.h; sourceTree = "<group>"; };
+		CE9F4371180324BE00B2A9D2 /* JSONReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONReader.cpp; path = Classes/JSONReader.cpp; sourceTree = "<group>"; };
+		CE9F4372180324BE00B2A9D2 /* JSONReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONReader.h; path = Classes/JSONReader.h; sourceTree = "<group>"; };
+		CE9F4373180324BE00B2A9D2 /* SubViewPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SubViewPage.cpp; path = Classes/SubViewPage.cpp; sourceTree = "<group>"; };
+		CE9F4374180324BE00B2A9D2 /* SubViewPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubViewPage.h; path = Classes/SubViewPage.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -918,6 +923,7 @@
 		CE1E611D17D8D868004CCDBD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CE9F435F1803197000B2A9D2 /* loading.png */,
 				CE1E611E17D8D868004CCDBD /* CloseNormal.png */,
 				CE1E612017D8D868004CCDBD /* CloseSelected.png */,
 				CE1E612217D8D868004CCDBD /* Default.png */,
@@ -1992,21 +1998,23 @@
 		CE1E647E17D8D86D004CCDBD /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CE9F4366180324BE00B2A9D2 /* CCHttpClientEx.cpp */,
+				CE9F4367180324BE00B2A9D2 /* CCHttpClientEx.h */,
+				CE9F4368180324BE00B2A9D2 /* CCHttpClientExMultiThreading.cpp */,
+				CE9F4369180324BE00B2A9D2 /* CCHttpClientExMultiThreading.h */,
+				CE9F436A180324BE00B2A9D2 /* cJSON.cpp */,
+				CE9F436B180324BE00B2A9D2 /* cJSON.h */,
+				CE9F436C180324BE00B2A9D2 /* Constants.h */,
+				CE9F436F180324BE00B2A9D2 /* ImageUtils.cpp */,
+				CE9F4370180324BE00B2A9D2 /* ImageUtils.h */,
+				CE9F4371180324BE00B2A9D2 /* JSONReader.cpp */,
+				CE9F4372180324BE00B2A9D2 /* JSONReader.h */,
+				CE9F4373180324BE00B2A9D2 /* SubViewPage.cpp */,
+				CE9F4374180324BE00B2A9D2 /* SubViewPage.h */,
 				CE1E647F17D8D86D004CCDBD /* AppDelegate.h */,
 				CE1E648017D8D86D004CCDBD /* AppDelegate.cpp */,
 				CE1E648217D8D86D004CCDBD /* HelloWorldScene.h */,
 				CE1E648317D8D86D004CCDBD /* HelloWorldScene.cpp */,
-				CE1E648B17D8D88E004CCDBD /* SubViewPage.h */,
-				CE1E648A17D8D88E004CCDBD /* SubViewPage.cpp */,
-				CE1E648D17D8E0BB004CCDBD /* Constants.h */,
-				CE1E648E17D8E571004CCDBD /* cJSON.cpp */,
-				CE1E648F17D8E571004CCDBD /* cJSON.h */,
-				CE1E649117D8E61D004CCDBD /* JSONReader.cpp */,
-				CE1E649217D8E61D004CCDBD /* JSONReader.h */,
-				CEF39D2F17DCB32E00D02AB0 /* ImageUtils.cpp */,
-				CEF39D3017DCB32E00D02AB0 /* ImageUtils.h */,
-				CEA0586417FA67AE008D341D /* CCHttpClientEx.cpp */,
-				CEA0586517FA67AE008D341D /* CCHttpClientEx.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2067,6 +2075,7 @@
 				CE1E612517D8D868004CCDBD /* HelloWorld.png in Resources */,
 				CE1E612717D8D868004CCDBD /* Icon-72.png in Resources */,
 				CE1E612917D8D868004CCDBD /* Icon-Small-50.png in Resources */,
+				CE9F43601803197000B2A9D2 /* loading.png in Resources */,
 				CE1E612B17D8D868004CCDBD /* Icon-Small.png in Resources */,
 				CE1E612D17D8D868004CCDBD /* Icon-Small@2x.png in Resources */,
 				CE1E612F17D8D868004CCDBD /* Icon.png in Resources */,
@@ -2118,6 +2127,7 @@
 				CE1E619C17D8D868004CCDBD /* CCString.cpp in Sources */,
 				CE1E619F17D8D868004CCDBD /* CCZone.cpp in Sources */,
 				CE1E61A217D8D868004CCDBD /* cocos2d.cpp in Sources */,
+				CE9F437C180324BE00B2A9D2 /* SubViewPage.cpp in Sources */,
 				CE1E61A517D8D868004CCDBD /* CCDrawingPrimitives.cpp in Sources */,
 				CE1E61A817D8D869004CCDBD /* CCDrawNode.cpp in Sources */,
 				CE1E61AC17D8D869004CCDBD /* CCGrabber.cpp in Sources */,
@@ -2187,6 +2197,7 @@
 				CE1E62B817D8D86A004CCDBD /* CCSpriteFrameCache.cpp in Sources */,
 				CE1E62BC17D8D86A004CCDBD /* base64.cpp in Sources */,
 				CE1E62BF17D8D86A004CCDBD /* CCNotificationCenter.cpp in Sources */,
+				CE9F4378180324BE00B2A9D2 /* cJSON.cpp in Sources */,
 				CE1E62C217D8D86A004CCDBD /* CCPointExtension.cpp in Sources */,
 				CE1E62C517D8D86A004CCDBD /* CCProfiling.cpp in Sources */,
 				CE1E62C817D8D86A004CCDBD /* ccUTF8.cpp in Sources */,
@@ -2236,6 +2247,7 @@
 				CE1E636717D8D86B004CCDBD /* CCLayerColorLoader.cpp in Sources */,
 				CE1E636A17D8D86B004CCDBD /* CCLayerGradientLoader.cpp in Sources */,
 				CE1E636D17D8D86B004CCDBD /* CCLayerLoader.cpp in Sources */,
+				CE9F437B180324BE00B2A9D2 /* JSONReader.cpp in Sources */,
 				CE1E637017D8D86B004CCDBD /* CCMenuItemImageLoader.cpp in Sources */,
 				CE1E637317D8D86B004CCDBD /* CCMenuItemLoader.cpp in Sources */,
 				CE1E637717D8D86B004CCDBD /* CCNode+CCBRelativePositioning.cpp in Sources */,
@@ -2269,6 +2281,7 @@
 				CE1E63D517D8D86C004CCDBD /* LocalStorageAndroid.cpp in Sources */,
 				CE1E63D817D8D86C004CCDBD /* HttpClient.cpp in Sources */,
 				CE1E63DE17D8D86C004CCDBD /* CCPhysicsDebugNode.cpp in Sources */,
+				CE9F4376180324BE00B2A9D2 /* CCHttpClientEx.cpp in Sources */,
 				CE1E63E117D8D86C004CCDBD /* CCPhysicsSprite.cpp in Sources */,
 				CE1E63E517D8D86C004CCDBD /* Animation.cpp in Sources */,
 				CE1E63E817D8D86C004CCDBD /* AnimationState.cpp in Sources */,
@@ -2286,8 +2299,10 @@
 				CE1E640C17D8D86C004CCDBD /* SkeletonData.cpp in Sources */,
 				CE1E640F17D8D86C004CCDBD /* SkeletonJson.cpp in Sources */,
 				CE1E641217D8D86C004CCDBD /* Skin.cpp in Sources */,
+				CE9F437A180324BE00B2A9D2 /* ImageUtils.cpp in Sources */,
 				CE1E641517D8D86C004CCDBD /* Slot.cpp in Sources */,
 				CE1E641817D8D86C004CCDBD /* SlotData.cpp in Sources */,
+				CE9F4377180324BE00B2A9D2 /* CCHttpClientExMultiThreading.cpp in Sources */,
 				CE1E641B17D8D86C004CCDBD /* spine-cocos2dx.cpp in Sources */,
 				CE1E644017D8D86C004CCDBD /* chipmunk.c in Sources */,
 				CE1E644417D8D86C004CCDBD /* cpConstraint.c in Sources */,
@@ -2317,14 +2332,9 @@
 				CE1E647417D8D86D004CCDBD /* cpSpaceStep.c in Sources */,
 				CE1E647617D8D86D004CCDBD /* cpSpatialIndex.c in Sources */,
 				CE1E647817D8D86D004CCDBD /* cpSweep1D.c in Sources */,
-				CEA0586617FA67AE008D341D /* CCHttpClientEx.cpp in Sources */,
 				CE1E647A17D8D86D004CCDBD /* cpVect.c in Sources */,
 				CE1E648117D8D86D004CCDBD /* AppDelegate.cpp in Sources */,
 				CE1E648417D8D86D004CCDBD /* HelloWorldScene.cpp in Sources */,
-				CE1E648C17D8D88E004CCDBD /* SubViewPage.cpp in Sources */,
-				CE1E649017D8E571004CCDBD /* cJSON.cpp in Sources */,
-				CE1E649317D8E61D004CCDBD /* JSONReader.cpp in Sources */,
-				CEF39D3117DCB32E00D02AB0 /* ImageUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
