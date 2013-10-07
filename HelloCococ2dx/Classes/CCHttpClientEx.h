@@ -64,8 +64,8 @@ public:
      */
     inline int getTimeoutForRead() {return _timeoutForRead;};
     
-    void killNetworkThread();
-    bool isKilled();
+    void haltNetworkThread();
+    bool isHalted();
     
 private:
     CCHttpClientEx();

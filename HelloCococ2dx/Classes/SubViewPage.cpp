@@ -9,10 +9,7 @@
 #include "SubViewPage.h"
 #include "Constants.h"
 #include "CCHttpClientEx.h"
-#include <set>
-using namespace std;
-
-static set<string> s_downloadBeganSet;
+#include "CCHttpClientExMultiThreading.h"
 
 SubViewPage::SubViewPage(){
     _nodes = NULL;
@@ -24,7 +21,6 @@ SubViewPage::~SubViewPage(){
     CC_SAFE_RELEASE_NULL(_nodes);
     CC_SAFE_RELEASE_NULL(_urls);
     CC_SAFE_RELEASE_NULL(_pTarget);
-    s_downloadBeganSet.clear();
 }
 
 void SubViewPage::onEnter(){
@@ -32,7 +28,6 @@ void SubViewPage::onEnter(){
 }
 
 void SubViewPage::onExit(){
-    cleanupNodes();
     CCLayer::onExit();
 }
 
@@ -71,7 +66,7 @@ void SubViewPage::downloadToNode(const string &url, cocos2d::CCNode *node){
     request->setUserData(node);
     
     // send request
-    CCHttpClientEx* client = CCHttpClientEx::getInstance();
+    CCHttpClientExMultiThreading* client = CCHttpClientExMultiThreading::getInstance();
     client->send(request);
     client->setTimeoutForConnect(kConnnectionTimeout);
     client->setTimeoutForRead(kReadTimeout);
@@ -80,6 +75,7 @@ void SubViewPage::downloadToNode(const string &url, cocos2d::CCNode *node){
 
 void SubViewPage::downloadAll(){
     
+    CCLOG("SubViewPage::downloadAll");
     setActive(true);
     
     CCObject* pObject=NULL;
@@ -87,8 +83,14 @@ void SubViewPage::downloadAll(){
     CCARRAY_FOREACH(_urls, pObject){
         CCString* url = (CCString*)pObject;
         CCNode* node = (CCNode*)_nodes->objectAtIndex(i);
-        if(s_downloadBeganSet.find(url->getCString())==s_downloadBeganSet.end()){
-            s_downloadBeganSet.insert(url->getCString());
+        CCSprite* loadingIcon=CCSprite::create("loading.png");
+        CCLOG("SubViewPage::downloadAll, loadingIcon created");
+        if(loadingIcon!=NULL){
+            node->addChild(loadingIcon);
+            CCLOG("SubViewPage::downloadAll, node->addChild(loadingIcon)");
+            CCRotateBy* rotation=CCRotateBy::create(0.1, 10);
+            CCRepeatForever* action=CCRepeatForever::create(rotation);
+            loadingIcon->runAction(action);
             downloadToNode(url->getCString(), node);
         }
         ++i;
@@ -157,11 +159,6 @@ void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
     if (node) {
         do{
             CC_BREAK_IF(!this || !this->isRunning());
-
-            if(s_downloadBeganSet.find(url)!=s_downloadBeganSet.end()){
-                s_downloadBeganSet.erase(url);
-            }
-
             if(getActive()==false){
                 return;
             }
@@ -170,10 +167,7 @@ void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
                 CCLog("Receive Error! %s\n",response->getErrorBuffer());
                 if(node!=NULL){
                     // re-download
-                    if(s_downloadBeganSet.find(url)==s_downloadBeganSet.end()){
-                        s_downloadBeganSet.insert(url);
-                        downloadToNode(url, node);
-                    }
+                    downloadToNode(url, node);
                 }
                 break;
             }
@@ -185,11 +179,14 @@ void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
             tex->initWithImage(pCCImage);
             
             if(tex != NULL){
-                CCSprite* spr = NULL;
-                spr=CCSprite::createWithTexture(tex);
-                cropRegionOfSpriteBySizeRatio(spr, node->getContentSize());
-                node->removeAllChildren();
-                node->addChild(spr,node->getZOrder()+1);
+                do{
+                    CC_BREAK_IF(tex->getPixelsWide()*tex->getPixelsHigh()<=0);
+                    CCSprite* spr = NULL;
+                    spr=CCSprite::createWithTexture(tex);
+                    cropRegionOfSpriteBySizeRatio(spr, node->getContentSize());
+                    node->removeAllChildren();
+                    node->addChild(spr,node->getZOrder()+1);
+                }while(false);
                 // release unused pointers
                 CC_SAFE_RELEASE_NULL(tex);
             }

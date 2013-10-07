@@ -22,14 +22,13 @@ static pthread_cond_t		s_SleepCondition;
 
 static unsigned long    s_asyncRequestCount = 0;
 
-static pthread_mutex_t s_bKillMutex=PTHREAD_MUTEX_INITIALIZER;
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 typedef int int32_t;
 #endif
 
 static bool need_quit = false;
-static bool bIsKilled = false;
+static bool bIsHalted = false;
+static pthread_mutex_t s_bHaltMutex=PTHREAD_MUTEX_INITIALIZER;
 
 static CCArray* s_requestQueue = NULL;
 static CCArray* s_responseQueue = NULL;
@@ -41,7 +40,7 @@ static char s_errorBuffer[CURL_ERROR_SIZE];
 typedef size_t (*write_callback)(void *ptr, size_t size, size_t nmemb, void *stream);
 
 // Callback function used by libcurl for collect response data
-size_t writeData(void *ptr, size_t size, size_t nmemb, void *stream)
+static size_t writeData(void *ptr, size_t size, size_t nmemb, void *stream)
 {
     std::vector<char> *recvBuffer = (std::vector<char>*)stream;
     size_t sizes = size * nmemb;
@@ -50,30 +49,56 @@ size_t writeData(void *ptr, size_t size, size_t nmemb, void *stream)
     // write data maybe called more than once in a single request
     recvBuffer->insert(recvBuffer->end(), (char*)ptr, (char*)ptr+sizes);
     
-    bool killSignal=false;
-    if(0==pthread_mutex_trylock(&s_bKillMutex)){
-        killSignal=bIsKilled;
-        pthread_mutex_unlock(&s_bKillMutex);
-    }
-    if(killSignal==true){
-        // use need_quit to terminate both the networkThread and curl write-data process
-        return CURLE_WRITE_ERROR;
-    }
-    
     return sizes;
 }
 
 // Prototypes
-bool configureCURL(CURL *handle);
-int processGetTask(CCHttpRequest *request, write_callback callback, void *stream, int32_t *errorCode);
-int processPostTask(CCHttpRequest *request, write_callback callback, void *stream, int32_t *errorCode);
-// int processDownloadTask(HttpRequest *task, write_callback callback, void *stream, int32_t *errorCode);
+static bool configureCURL(CURL *handle);
+static int processGetTask(CCHttpRequest *request, write_callback callback, void *stream, int32_t *errorCode);
+static int processPostTask(CCHttpRequest *request, write_callback callback, void *stream, int32_t *errorCode);
 
-static void* singleTaskThread(void *data){
-    do {
-        CC_BREAK_IF(data==NULL);
-        // just perform a crazy download
-        CCHttpRequest* request = (CCHttpRequest*)data;
+// Worker thread
+static void* networkThread(void *data)
+{
+    CCHttpRequest *request = NULL;
+    
+    while (true)
+    {
+        if (need_quit)
+        {
+            break;
+        }
+        
+        bool haltSignal=false;
+        if(0==pthread_mutex_lock(&s_bHaltMutex)){
+            haltSignal=bIsHalted;
+            pthread_mutex_unlock(&s_bHaltMutex);
+        }
+        
+        // step 1: send http request if the requestQueue isn't empty
+        request = NULL;
+        
+        pthread_mutex_lock(&s_requestQueueMutex); //Get request task from queue
+        if (s_requestQueue->count()>0)
+        {
+            // stack operation
+            request = dynamic_cast<CCHttpRequest*>(s_requestQueue->lastObject());
+            // request's refcount = 1 here
+        }
+        pthread_mutex_unlock(&s_requestQueueMutex);
+        
+        if (NULL == request || true == haltSignal) // suspend the thread on requestQueue empty or intentionally halted
+        {
+        	// Wait for http request tasks from main thread
+        	pthread_cond_wait(&s_SleepCondition, &s_SleepMutex);
+            continue;
+        }
+        
+        if(request!=NULL){
+            s_requestQueue->removeLastObject();
+        }
+        
+        // step 2: libcurl sync access
         
         // Create a HttpResponse object, the default setting is http access failed
         CCHttpResponse *response = new CCHttpResponse(request);
@@ -128,54 +153,6 @@ static void* singleTaskThread(void *data){
         
         // resume dispatcher selector
         CCDirector::sharedDirector()->getScheduler()->resumeTarget(CCHttpClientEx::getInstance());
-        
-    } while (false);
-    pthread_exit(NULL);
-    return 0;
-}
-
-// Worker thread
-static void* networkThread(void *data)
-{
-    CCHttpRequest *request = NULL;
-    
-    while (true)
-    {
-        if (need_quit)
-        {
-            break;
-        }
-        
-        // step 1: send http request if the requestQueue isn't empty
-        request = NULL;
-        
-        pthread_mutex_lock(&s_requestQueueMutex); //Get request task from queue
-        if (s_requestQueue->count()>0)
-        {
-            // stack operation
-            request = dynamic_cast<CCHttpRequest*>(s_requestQueue->lastObject());
-            s_requestQueue->removeLastObject();
-            // request's refcount = 1 here
-        }
-        pthread_mutex_unlock(&s_requestQueueMutex);
-        
-        bool killSignal=false;
-        if(0==pthread_mutex_trylock(&s_bKillMutex)){
-            killSignal=bIsKilled;
-            pthread_mutex_unlock(&s_bKillMutex);
-        }
-        
-        if (NULL == request || true == killSignal) // suspend the thread on requestQueue empty or intentionally halted
-        {
-        	// Wait for http request tasks from main thread
-        	pthread_cond_wait(&s_SleepCondition, &s_SleepMutex);
-            continue;
-        }
-        
-        // step 2: libcurl sync access
-        pthread_t singleTask;
-        pthread_create(&singleTask, NULL, singleTaskThread, request);
-        pthread_detach(singleTask);
     }
     
     // cleanup: if worker thread received quit signal, clean up un-completed request queue
@@ -292,13 +269,6 @@ int processGetTask(CCHttpRequest *request, write_callback callback, void *stream
         }
         
         code = curl_easy_setopt(curl, CURLOPT_WRITEDATA, stream);
-        if (code != CURLE_OK)
-        {
-            break;
-        }
-        
-        // circumventing the curl_resolv_timeout(SIGALRM non thread-safe issue) bug
-        code = curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
         if (code != CURLE_OK)
         {
             break;
@@ -441,9 +411,9 @@ CCHttpClientEx::~CCHttpClientEx()
 //Lazy create semaphore & mutex & thread
 bool CCHttpClientEx::lazyInitThreadSemphore()
 {
-    if(0==pthread_mutex_trylock(&s_bKillMutex)){
-        bIsKilled = false;
-        pthread_mutex_unlock(&s_bKillMutex);
+    if(0==pthread_mutex_trylock(&s_bHaltMutex)){
+        bIsHalted = false;
+        pthread_mutex_unlock(&s_bHaltMutex);
     }
     
     if (s_requestQueue != NULL) {
@@ -534,18 +504,18 @@ void CCHttpClientEx::dispatchResponseCallbacks(float delta)
     
 }
 
-void CCHttpClientEx::killNetworkThread(){
-    if(0==pthread_mutex_trylock(&s_bKillMutex)){
-        bIsKilled=true;
-        pthread_mutex_unlock(&s_bKillMutex);
+void CCHttpClientEx::haltNetworkThread(){
+    if(0==pthread_mutex_lock(&s_bHaltMutex)){
+        bIsHalted=true;
+        pthread_mutex_unlock(&s_bHaltMutex);
     }
 }
 
-bool CCHttpClientEx::isKilled(){
+bool CCHttpClientEx::isHalted(){
     bool ret=false;
-    if(0==pthread_mutex_trylock(&s_bKillMutex)){
-        ret=bIsKilled;
-        pthread_mutex_unlock(&s_bKillMutex);
+    if(0==pthread_mutex_trylock(&s_bHaltMutex)){
+        ret=bIsHalted;
+        pthread_mutex_unlock(&s_bHaltMutex);
     }
     return ret;
 }

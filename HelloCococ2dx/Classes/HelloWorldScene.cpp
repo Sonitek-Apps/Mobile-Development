@@ -292,7 +292,7 @@ void HelloWorld::loadListBuffer(){
             CCLog("Read file %s error.", path.c_str());
         }
         fclose(fp);
-    
+        CCLOG("closed JSON file");
         _pScroll->setContentOffset(_pScroll->minContainerOffset());
         _previousOffsetY = _pScroll->minContainerOffset().y;
         _pageDict = CCDictionary::create();
@@ -304,6 +304,7 @@ void HelloWorld::loadListBuffer(){
             // addPageOfDate will add a CCLayer both to the scroll and _pagesDict
             addPage(pageOrder);
         }
+        CCLOG("pages added");
         
         // preloading
         for(int pageOrder = 0; pageOrder<numberOfPreloadPages ; ++pageOrder){
@@ -317,7 +318,7 @@ void HelloWorld::loadListBuffer(){
         }
         
         _bLoadListBufferFinished = true;
-        
+        CCLOG("loadListBuffer finished");
     }while(false);
 }
 
