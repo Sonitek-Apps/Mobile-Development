@@ -1,6 +1,2 @@
 INDEX VERSION 1.126+/Users/user/Mobile-Development/.metadata/.plugins/org.eclipse.jdt.core
-2168996236.index
-287709335.index
-2438505068.index
-2329984081.index
 2741727132.index
