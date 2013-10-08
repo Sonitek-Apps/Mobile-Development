@@ -411,7 +411,7 @@ CCHttpClientEx::~CCHttpClientEx()
 //Lazy create semaphore & mutex & thread
 bool CCHttpClientEx::lazyInitThreadSemphore()
 {
-    if(0==pthread_mutex_trylock(&s_bHaltMutex)){
+    if(0==pthread_mutex_lock(&s_bHaltMutex)){
         bIsHalted = false;
         pthread_mutex_unlock(&s_bHaltMutex);
     }
