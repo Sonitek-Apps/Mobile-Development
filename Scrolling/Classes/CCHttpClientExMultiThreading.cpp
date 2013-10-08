@@ -444,7 +444,7 @@ CCHttpClientExMultiThreading::~CCHttpClientExMultiThreading()
 //Lazy create semaphore & mutex & thread
 bool CCHttpClientExMultiThreading::lazyInitThreadSemphore()
 {
-    if(0==pthread_mutex_lock(&s_bHaltMutex)){
+    if(0==pthread_mutex_trylock(&s_bHaltMutex)){
         bIsHalted = false;
         pthread_mutex_unlock(&s_bHaltMutex);
     }
@@ -538,7 +538,7 @@ void CCHttpClientExMultiThreading::dispatchResponseCallbacks(float delta)
 }
 
 void CCHttpClientExMultiThreading::haltNetworkThread(){
-    if(0==pthread_mutex_lock(&s_bHaltMutex)){
+    if(0==pthread_mutex_trylock(&s_bHaltMutex)){
         bIsHalted=true;
         pthread_mutex_unlock(&s_bHaltMutex);
     }

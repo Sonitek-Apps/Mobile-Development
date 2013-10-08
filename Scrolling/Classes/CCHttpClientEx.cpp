@@ -70,7 +70,7 @@ static void* networkThread(void *data)
         }
         
         bool haltSignal=false;
-        if(0==pthread_mutex_lock(&s_bHaltMutex)){
+        if(0==pthread_mutex_trylock(&s_bHaltMutex)){
             haltSignal=bIsHalted;
             pthread_mutex_unlock(&s_bHaltMutex);
         }
@@ -411,7 +411,7 @@ CCHttpClientEx::~CCHttpClientEx()
 //Lazy create semaphore & mutex & thread
 bool CCHttpClientEx::lazyInitThreadSemphore()
 {
-    if(0==pthread_mutex_lock(&s_bHaltMutex)){
+    if(0==pthread_mutex_trylock(&s_bHaltMutex)){
         bIsHalted = false;
         pthread_mutex_unlock(&s_bHaltMutex);
     }
@@ -505,7 +505,7 @@ void CCHttpClientEx::dispatchResponseCallbacks(float delta)
 }
 
 void CCHttpClientEx::haltNetworkThread(){
-    if(0==pthread_mutex_lock(&s_bHaltMutex)){
+    if(0==pthread_mutex_trylock(&s_bHaltMutex)){
         bIsHalted=true;
         pthread_mutex_unlock(&s_bHaltMutex);
     }

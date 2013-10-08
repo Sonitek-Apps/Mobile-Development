@@ -66,7 +66,11 @@ void SubViewPage::downloadToNode(const string &url, cocos2d::CCNode *node){
     request->setUserData(node);
     
     // send request
+#if kUseMultiThreading == 1
+    CCHttpClientExMultiThreading* client = CCHttpClientExMultiThreading::getInstance();
+#else
     CCHttpClientEx* client = CCHttpClientEx::getInstance();
+#endif
     client->send(request);
     client->setTimeoutForConnect(kConnnectionTimeout);
     client->setTimeoutForRead(kReadTimeout);
@@ -135,7 +139,12 @@ void SubViewPage::createNodes(){
 void SubViewPage::cleanupNodes(){
     
     setActive(false);
+
+#if kUseMultiThreading == 1
+    CCHttpClientExMultiThreading::getInstance()->haltNetworkThread();
+#else
     CCHttpClientEx::getInstance()->haltNetworkThread();
+#endif
     
     for(int i=0;i<_nodes->count();++i){
         CCNode* node = (CCNode*) _nodes->objectAtIndex(i);
