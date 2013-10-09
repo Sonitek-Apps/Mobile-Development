@@ -6,7 +6,7 @@
 HelloWorld::HelloWorld(){
     _bLoadListBufferFinished=false;
     _numberOfPhotosPerPage=3;
-    _numberOfPages=100;
+    _numberOfPages=500;
     _pScroll=NULL;
     _urlDict=NULL;
     _pageDict=NULL;
@@ -27,7 +27,7 @@ HelloWorld::~HelloWorld(){
 
 void HelloWorld::onEnter(){
     CCLayer::onEnter();
-    
+    CCLOG("HelloWorld::onEnter");
     _jsonReader = JSONReader::create(this, callfuncO_selector(HelloWorld::JSONCallback));
     CC_SAFE_RETAIN(_jsonReader);
 }

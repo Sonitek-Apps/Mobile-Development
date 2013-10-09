@@ -10,8 +10,8 @@
 #include <queue>
 #include <pthread.h>
 #include <errno.h>
-
 #include "curl/curl.h"
+#include "Constants.h"
 
 static pthread_t        s_networkThread;
 static pthread_mutex_t  s_requestQueueMutex;
@@ -42,6 +42,22 @@ typedef size_t (*write_callback)(void *ptr, size_t size, size_t nmemb, void *str
 // Callback function used by libcurl for collect response data
 static size_t writeData(void *ptr, size_t size, size_t nmemb, void *stream)
 {
+#if kUseBruteInterrupt == 1
+    bool haltSignal=false;
+#if kUseTryLock == 1
+    if(0==pthread_mutex_trylock(&s_bHaltMutex)){
+#else
+    if(0==pthread_mutex_lock(&s_bHaltMutex)){
+#endif
+        haltSignal=bIsHalted;
+        pthread_mutex_unlock(&s_bHaltMutex);
+    }
+    
+    if(true==haltSignal){
+        return CURLE_WRITE_ERROR;
+    }
+#endif
+        
     std::vector<char> *recvBuffer = (std::vector<char>*)stream;
     size_t sizes = size * nmemb;
     
@@ -68,13 +84,23 @@ static void* networkThread(void *data)
         {
             break;
         }
-        
+
         bool haltSignal=false;
+#if kUseTryLock == 1
         if(0==pthread_mutex_trylock(&s_bHaltMutex)){
+#else
+        if(0==pthread_mutex_lock(&s_bHaltMutex)){
+#endif
             haltSignal=bIsHalted;
             pthread_mutex_unlock(&s_bHaltMutex);
         }
         
+        if(true==haltSignal){
+            // Wait for http request tasks from main thread
+        	pthread_cond_wait(&s_SleepCondition, &s_SleepMutex);
+            continue;
+        }
+    
         // step 1: send http request if the requestQueue isn't empty
         request = NULL;
         
@@ -82,20 +108,22 @@ static void* networkThread(void *data)
         if (s_requestQueue->count()>0)
         {
             // stack operation
+#if kUseRequestStack == 1
             request = dynamic_cast<CCHttpRequest*>(s_requestQueue->lastObject());
+            s_requestQueue->removeLastObject();
+#else
+            request = dynamic_cast<CCHttpRequest*>(s_requestQueue->objectAtIndex(0));
+            s_requestQueue->removeObjectAtIndex(0);
+#endif
             // request's refcount = 1 here
         }
         pthread_mutex_unlock(&s_requestQueueMutex);
         
-        if (NULL == request || true == haltSignal) // suspend the thread on requestQueue empty or intentionally halted
+        if (NULL == request /*|| true == bIsHalted*/ ) // suspend the thread on requestQueue empty or intentionally halted
         {
         	// Wait for http request tasks from main thread
         	pthread_cond_wait(&s_SleepCondition, &s_SleepMutex);
             continue;
-        }
-        
-        if(request!=NULL){
-            s_requestQueue->removeLastObject();
         }
         
         // step 2: libcurl sync access
@@ -144,7 +172,6 @@ static void* networkThread(void *data)
         {
             response->setSucceed(true);
         }
-        
         
         // add response packet into queue
         pthread_mutex_lock(&s_responseQueueMutex);
@@ -411,7 +438,11 @@ CCHttpClientEx::~CCHttpClientEx()
 //Lazy create semaphore & mutex & thread
 bool CCHttpClientEx::lazyInitThreadSemphore()
 {
+#if kUseTryLock == 1
     if(0==pthread_mutex_trylock(&s_bHaltMutex)){
+#else
+    if(0==pthread_mutex_lock(&s_bHaltMutex)){
+#endif
         bIsHalted = false;
         pthread_mutex_unlock(&s_bHaltMutex);
     }
@@ -469,15 +500,18 @@ void CCHttpClientEx::send(CCHttpRequest* request)
 // Poll and notify main thread if responses exists in queue
 void CCHttpClientEx::dispatchResponseCallbacks(float delta)
 {
-    // CCLog("CCHttpClientEx::dispatchResponseCallbacks is running");
-    
     CCHttpResponse* response = NULL;
     
     pthread_mutex_lock(&s_responseQueueMutex);
     if (s_responseQueue->count())
     {
+#if kUseResponseStack == 1
+        response = dynamic_cast<CCHttpResponse*>(s_responseQueue->lastObject());
+        s_responseQueue->removeLastObject();
+#else
         response = dynamic_cast<CCHttpResponse*>(s_responseQueue->objectAtIndex(0));
         s_responseQueue->removeObjectAtIndex(0);
+#endif
     }
     pthread_mutex_unlock(&s_responseQueueMutex);
     
@@ -505,7 +539,11 @@ void CCHttpClientEx::dispatchResponseCallbacks(float delta)
 }
 
 void CCHttpClientEx::haltNetworkThread(){
+#if kUseTryLock == 1
     if(0==pthread_mutex_trylock(&s_bHaltMutex)){
+#else
+    if(0==pthread_mutex_lock(&s_bHaltMutex)){
+#endif
         bIsHalted=true;
         pthread_mutex_unlock(&s_bHaltMutex);
     }
@@ -513,7 +551,11 @@ void CCHttpClientEx::haltNetworkThread(){
 
 bool CCHttpClientEx::isHalted(){
     bool ret=false;
+#if kUseTryLock == 1
     if(0==pthread_mutex_trylock(&s_bHaltMutex)){
+#else
+    if(0==pthread_mutex_lock(&s_bHaltMutex)){
+#endif
         ret=bIsHalted;
         pthread_mutex_unlock(&s_bHaltMutex);
     }
