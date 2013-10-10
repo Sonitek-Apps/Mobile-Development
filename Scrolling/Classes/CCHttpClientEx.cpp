@@ -119,7 +119,7 @@ static void* networkThread(void *data)
         }
         pthread_mutex_unlock(&s_requestQueueMutex);
         
-        if (NULL == request /*|| true == bIsHalted*/ ) // suspend the thread on requestQueue empty or intentionally halted
+        if (NULL == request) // suspend the thread on requestQueue empty or intentionally halted
         {
         	// Wait for http request tasks from main thread
         	pthread_cond_wait(&s_SleepCondition, &s_SleepMutex);

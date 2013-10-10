@@ -171,10 +171,6 @@ void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
             
             if(pUserData==NULL || !response->isSucceed()){
                 CCLog("Receive Error! %s\n",response->getErrorBuffer());
-                if(node!=NULL){
-                    // re-download
-                    downloadToNode(url, node);
-                }
                 break;
             }
             

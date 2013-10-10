@@ -1,5 +1,5 @@
-APPNAME="HelloCococ2dx"
-APP_ANDROID_NAME="org.cocos2dx.example"
+APPNAME="Scrolling"
+APP_ANDROID_NAME="org.genxium.scrolling"
 
 if [ -z "${SDK_ROOT+aaa}" ]; then
 # ... if SDK_ROOT is not set, use "$HOME/bin/android-sdk"

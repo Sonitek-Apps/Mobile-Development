@@ -40,8 +40,9 @@ bool JSONReader::init(CCObject* pTarget, SEL_CallFuncO pSelector){
         m_pTarget = pTarget;
         CC_SAFE_RETAIN(m_pTarget);
         m_pSelector = pSelector;
-        
-        bool bCheckListFile = isListFileUpToDate();
+        CCLOG("JSONReader::init");
+        //bool bCheckListFile = isListFileUpToDate();
+        bool bCheckListFile = false;
         if(!bCheckListFile){
             CCLog("Updating JSON list");
             downloadJSON();
