@@ -171,6 +171,10 @@ void SubViewPage::onDownloadToNodeFinished(CCNode*, void* obj){
             
             if(pUserData==NULL || !response->isSucceed()){
                 CCLog("Receive Error! %s\n",response->getErrorBuffer());
+                CCLabelTTF* failureLabel=CCLabelTTF::create("Failed", "Georgia", 10, node->getContentSize(),kCCTextAlignmentLeft);
+                failureLabel->setPosition(ccp(node->getContentSize().width*0.5, node->getContentSize().height*0.5));
+                node->removeAllChildren();
+                node->addChild(failureLabel);
                 break;
             }
             

@@ -17,6 +17,9 @@ HelloWorld::HelloWorld(){
     _scrollBouncingFromTop=false;
     _scrollBouncingFromBottom=false;
     _sizeScrollPage=CCSize(0,0);
+    _pageLabel=NULL;
+    _previousPageNumber=0;
+    _currentPageNumber=0;
 }
 
 HelloWorld::~HelloWorld(){
@@ -92,6 +95,8 @@ void HelloWorld::scrollViewDidScroll(cocos2d::extension::CCScrollView *view){
                 if ( currentPage==previousPage ) {
                     return;
                 }
+                _previousPageNumber=previousPage;
+                _currentPageNumber=currentPage;
                 
                 int cleanOrder[]={currentPage-2, currentPage+2};
                 int addOrder[]={currentPage+1, currentPage-1, currentPage};
@@ -180,21 +185,7 @@ bool HelloWorld::init()
     /////////////////////////////
     // 3. add your codes below...
 
-    // add a label shows "Hello World"
-    // create and initialize a label
-    CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Thonburi", 34);
-
-    // ask director the window size
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-
-    // position the label on the center of the screen
-    pLabel->setPosition( ccp(size.width / 2, size.height - 20) );
-
-    // add the label as a child to this layer
-    this->addChild(pLabel, 1);
-
-    // add "HelloWorld" splash screen"
-    
+    CCSize size=CCDirector::sharedDirector()->getWinSize();
     _sizeScrollPage.setSize( size.width, size.height*0.5);
     _pScroll = CCScrollView::create(CCSize(size.width, size.height));
     _pScroll->setContentSize(CCSize(size.width, _numberOfPages*_sizeScrollPage.height));
@@ -204,6 +195,12 @@ bool HelloWorld::init()
 
     this->addChild(_pScroll);
     
+    _pageLabel=CCLabelTTF::create("page 0", "Georgia", 24);
+    _pageLabel->setColor(ccRED);
+    _pageLabel->setPosition(ccp(size.width*0.1,size.height*0.9));
+    this->addChild(_pageLabel, 128);
+    
+    scheduleUpdate();
     return true;
 }
 
@@ -235,7 +232,7 @@ void HelloWorld::addPage(int pageOrder){
     CCPoint position = ccp(0, _pScroll->getContentSize().height-(pageOrder+1)*pageSize.height);
     page->setPosition(position);
     _pageDict->setObject(page, key);
-    _pScroll->addChild(page);
+    _pScroll->addChild(page,this->getZOrder()+1);
 }
 
 void HelloWorld::loadListBuffer(){
@@ -320,4 +317,9 @@ void HelloWorld::loadListBuffer(){
 void HelloWorld::JSONCallback(cocos2d::CCObject* pSender){
     CC_SAFE_RELEASE_NULL(_jsonReader);
     loadListBuffer();
+}
+
+void HelloWorld::update(float dt){
+    CCString* pageLabelStr=CCString::createWithFormat("page %d", _currentPageNumber);
+    _pageLabel->setString(pageLabelStr->getCString());
 }

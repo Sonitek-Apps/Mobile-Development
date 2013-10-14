@@ -823,6 +823,7 @@
 		CE1E647917D8D86D004CCDBD /* cpVect.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cpVect.c; path = libs/chipmunk/src/cpVect.c; sourceTree = "<group>"; };
 		CE1E647B17D8D86D004CCDBD /* prime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = prime.h; path = libs/chipmunk/src/prime.h; sourceTree = "<group>"; };
 		CE1E647D17D8D86D004CCDBD /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		CE948402180BFFFA008205F6 /* DownloaderDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloaderDef.h; sourceTree = "<group>"; };
 		CEED377918045F530004B87F /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		CEED377A18045F530004B87F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CEED377B18045F530004B87F /* CCHttpClientEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCHttpClientEx.cpp; sourceTree = "<group>"; };
@@ -1995,6 +1996,7 @@
 				CEED378718045F530004B87F /* JSONReader.h */,
 				CEED378818045F530004B87F /* SubViewPage.cpp */,
 				CEED378918045F530004B87F /* SubViewPage.h */,
+				CE948402180BFFFA008205F6 /* DownloaderDef.h */,
 			);
 			name = Classes;
 			path = ../Classes;

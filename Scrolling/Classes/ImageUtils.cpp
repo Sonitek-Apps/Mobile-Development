@@ -80,7 +80,6 @@ CCImage* ImageUtils::cropRegionOfTextureToImageBySizeRatio(CCTexture2D* srcTextu
     
     CCRenderTexture* renderTexture = CCRenderTexture::create(croppedTextureToSprite->boundingBox().size.width, croppedTextureToSprite->boundingBox().size.height,kCCTexture2DPixelFormat_Default);
     //CC_SAFE_RETAIN(renderTexture);
-    renderTexture->addChild(croppedTextureToSprite);
     renderTexture->begin();
     croppedTextureToSprite->setAnchorPoint(ccp(0,0));
     croppedTextureToSprite->setPosition(ccp(0,0));

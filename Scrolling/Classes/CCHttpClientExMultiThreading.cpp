@@ -11,7 +11,7 @@
 #include <pthread.h>
 #include <errno.h>
 #include "curl/curl.h"
-#include "Constants.h"
+#include "DownloaderDef.h"
 
 static pthread_t        s_networkThread;
 static pthread_mutex_t  s_requestQueueMutex;

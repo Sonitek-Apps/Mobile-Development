@@ -23,10 +23,6 @@
 #define kHttpPreix "http"
 #define kDownloadedPhotosListPath (CCFileUtils::sharedFileUtils()->getWritablePath().append("downloadedPhotosList")).c_str()
 
-#define kUseMultiThreading 1
-#define kUseTryLock 1
-#define kUseBruteInterrupt 1
-#define kUseRequestStack 1
-#define kUseResponseStack 1
+#define kUseMultiThreading 0
 
 #endif

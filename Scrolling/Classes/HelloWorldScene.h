@@ -25,7 +25,7 @@ public:
     static HelloWorld* create();
     // there's no 'id' in cpp, so we recommend to return the class instance pointer
     static cocos2d::CCScene* scene();
-
+    virtual void update(float dt);
 private:
     void menuCloseCallback(CCObject* pSender);
     void JSONCallback(CCObject*);
@@ -49,6 +49,10 @@ private:
     bool _scrollBouncingFromBottom;
     
     CCSize _sizeScrollPage;
+    
+    CCLabelTTF* _pageLabel;
+    int _previousPageNumber;
+    int _currentPageNumber;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
