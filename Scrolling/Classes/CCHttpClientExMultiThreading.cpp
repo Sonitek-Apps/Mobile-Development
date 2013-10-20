@@ -131,9 +131,7 @@ static void* singleTaskThread(void *data){
         pthread_mutex_unlock(&s_responseQueueMutex);
         
         // resume dispatcher selector
-        if(s_pHttpClient!=NULL){
-            CCDirector::sharedDirector()->getScheduler()->resumeTarget(s_pHttpClient);
-        }
+        CCDirector::sharedDirector()->getScheduler()->resumeTarget(CCHttpClientExMultiThreading::getInstance());
         
     } while (false);
     pthread_exit(NULL);
