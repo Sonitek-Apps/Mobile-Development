@@ -196,8 +196,8 @@ bool HelloWorld::init()
     this->addChild(_pScroll);
     
     _pageLabel=CCLabelTTF::create("page 0", "Georgia", 24);
-    _pageLabel->setColor(ccRED);
-    _pageLabel->setPosition(ccp(size.width*0.1,size.height*0.9));
+    _pageLabel->setColor(ccGREEN);
+    _pageLabel->setPosition(ccp(size.width*0.2,size.height*0.9));
     this->addChild(_pageLabel, 128);
     
     scheduleUpdate();
