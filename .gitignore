@@ -10,3 +10,12 @@
 *.a
 *.log
 *.running
+.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/0.png
+.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/1.png
+.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/2.png
+.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/3.png
+.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/4.png
+.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/5.png
+.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/6.png
+.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/7.png
+.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes/savedIndexNames.txt
